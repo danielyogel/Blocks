@@ -13,7 +13,7 @@ export const withState = () => {
   const [state, setState] = React.useState(INITIAL_STATE);
 
   React.useEffect(() => {
-    console.log(state);
+    console.info(state);
   }, [state]);
 
   return (

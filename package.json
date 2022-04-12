@@ -43,10 +43,11 @@
     "arrowParens": "avoid"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
     "@dnd-kit/core": "^3.1.1",
     "@dnd-kit/modifiers": "^3.0.0",
     "@dnd-kit/sortable": "^4.0.0",
+    "@headlessui/react": "^1.5.0",
+    "@heroicons/react": "^1.0.6",
     "@tiptap/extension-heading": "^2.0.0-beta.26",
     "@tiptap/extension-highlight": "^2.0.0-beta.33",
     "@tiptap/extension-image": "^2.0.0-beta.27",

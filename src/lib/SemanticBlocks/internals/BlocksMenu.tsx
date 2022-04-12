@@ -1,7 +1,7 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import { NodeValue, Blocks } from '../index';
-import { XIcon } from '../../icons';
+import { XIcon } from '../../components/icons';
 import classNames from 'classnames';
 import { useOutside } from '../../../utils/useOutside';
 
@@ -24,6 +24,7 @@ export const BlocksMenu = ({ onSelect }: { onSelect: (node: NodeValue) => void }
         <XIcon
           mode={isOpen ? 'X' : 'PLUS'}
           isDisabled={false}
+          color='black'
           onClick={() => {
             setIsOpen(isopen => !isOpen);
           }}
@@ -41,7 +42,7 @@ export const BlocksMenu = ({ onSelect }: { onSelect: (node: NodeValue) => void }
                   key={b.kind}
                   className='inline-flex cursor-pointer bg-gray w-24 h-24 items-center justify-center mr-2 mt-2 text-sm hover:opacity-100 opacity-80 duration-200 delay-150 transition-opacity'
                   onClick={() => {
-                    const newValue = { kind: b.kind, id: nanoid(), content: '' };
+                    const newValue = { kind: b.kind, id: nanoid(), content: b.initialValue };
                     onSelect(newValue);
                     setIsOpen(isopen => !isOpen);
                   }}

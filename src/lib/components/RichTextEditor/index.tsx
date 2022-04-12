@@ -18,7 +18,7 @@ type Params = {
   uploader: (file: File) => Promise<string>;
 };
 
-export default function ({ value, onChange, height, readOnly = false, placeholder, uploader }: Params) {
+export function RichTextEditor({ value, onChange, height, readOnly = false, placeholder, uploader }: Params) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ codeBlock: false }),
@@ -35,7 +35,14 @@ export default function ({ value, onChange, height, readOnly = false, placeholde
     editable: readOnly ? false : true
   });
 
-  const ref = React.useRef<PureEditorContent>(null);
+  const [wasInit, setWasInit] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!wasInit && editor) {
+      editor.chain().focus('end').run();
+      setWasInit(true);
+    }
+  });
 
   if (!editor) {
     return null;
