@@ -1,11 +1,6 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
 import { SemanticBlocks, NodeValue } from './index';
-
-export default {
-  component: SemanticBlocks,
-  title: 'Components/controls/SemanticBlocks'
-} as Meta<React.ComponentProps<typeof SemanticBlocks>>;
+import '../../index.css';
 
 const INITIAL_STATE: Array<NodeValue> = [];
 
