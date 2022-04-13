@@ -48,7 +48,7 @@ export function BaseModal({ isOpen, onClose, renderContent, desktopMaxWidth = 'l
             >
               <div className='max-h-full overflow-y-auto'>{renderContent(onClose)}</div>
 
-              <div className='text-gray-dark absolute top-2 right-2 z-50'>
+              <div className='text-gray-dark absolute top-2 right-2 z-50 w-10'>
                 <XIcon onClick={onClose} mode='X' isDisabled={false} color='white' />
               </div>
             </div>

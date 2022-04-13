@@ -3,7 +3,6 @@ import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../../utils';
 import { BlocksMenu } from './internals/BlocksMenu';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { SortableItem } from './SortableItem';
 import { NodeView } from './internals/NodeView';
 import { RichTextEditor, BaseModal, ImageIcon } from '../components';
 
@@ -151,20 +150,13 @@ export function SemanticBlocks({ value, onChange }: Params) {
           <SortableContext items={value.map(m => m)}>
             {value.map((currNode, index) => {
               return (
-                <SortableItem id={currNode.id} key={currNode.id} disabled={false}>
-                  <div className='group mb-3' key={currNode.id}>
-                    <div>
-                      <NodeView
-                        node={currNode}
-                        onChange={node => onChange(unsafeUpdateAt(index, node, value))}
-                        onDelete={() => onChange(unsafeDeleteAt(index, value))}
-                      />
-                    </div>
-                    <div className='group-hover:opacity-100 opacity-0 duration-300'>
-                      <BlocksMenu onSelect={node => onChange(unsafeInsertAt(index + 1, node, value))} />
-                    </div>
-                  </div>
-                </SortableItem>
+                <NodeView
+                  key={currNode.id}
+                  node={currNode}
+                  onChange={node => onChange(unsafeUpdateAt(index, node, value))}
+                  onDelete={() => onChange(unsafeDeleteAt(index, value))}
+                  onAdd={node => onChange(unsafeInsertAt(index + 1, node, value))}
+                />
               );
             })}
           </SortableContext>

@@ -4,7 +4,7 @@ import '../../index.css';
 
 const INITIAL_STATE: Array<NodeValue> = [];
 
-export const withState = () => {
+export const Demo = () => {
   const [state, setState] = React.useState(INITIAL_STATE);
 
   React.useEffect(() => {
