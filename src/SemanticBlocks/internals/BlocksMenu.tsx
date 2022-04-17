@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { NodeValue, Blocks } from '../index';
 import { XIcon } from '../../components/icons';
 import classNames from 'classnames';
-import { useOutside } from '../../../utils/useOutside';
+import { useOutside } from '../../utils/useOutside';
 
 export const BlocksMenu = ({ onSelect }: { onSelect: (node: NodeValue) => void }) => {
   const [isOpen, setIsOpen] = React.useState(false);

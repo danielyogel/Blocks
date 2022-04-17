@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Editor } from '@tiptap/react';
-import { camelCase, fileToBase64 } from '../../../utils/functionalProgramming';
-import { assertNever } from '../../../utils/functionalProgramming';
+import { camelCase, fileToBase64 } from '../../utils/functionalProgramming';
+import { assertNever } from '../../utils/functionalProgramming';
 
 const Exts = [
   {

@@ -39,7 +39,7 @@ export function RichTextEditor({ value, onChange, height, readOnly = false, plac
 
   React.useEffect(() => {
     if (!wasInit && editor) {
-      editor.chain().focus('end').run();
+      editor.chain().focus('end').joinBackward().run();
       setWasInit(true);
     }
   });

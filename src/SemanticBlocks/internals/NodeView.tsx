@@ -5,7 +5,7 @@ import { XIcon, XIconClear, DragIcon } from '../../components/icons';
 import { NodeValue } from '../index';
 import { Blocks } from '../index';
 import { BlocksMenu } from './BlocksMenu';
-import { unsafeInsertAt } from '../../../utils';
+import { unsafeInsertAt } from '../../utils';
 
 export const NodeView = ({
   node,
@@ -65,7 +65,7 @@ export const NodeView = ({
           </div>
         </div>
       </div>
-      <div className='group-hover:opacity-100 opacity-0 duration-300 mb-2'>
+      <div className='group-hover:opacity-100 opacity-0 duration-300'>
         <BlocksMenu onSelect={onAdd} />
       </div>
     </div>

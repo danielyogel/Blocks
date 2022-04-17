@@ -1,5 +1,5 @@
 import React from 'react';
-import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../../utils';
+import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../utils';
 import { BlocksMenu } from './internals/BlocksMenu';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -13,13 +13,19 @@ export const Blocks = [
   {
     kind: 'TITLE',
     Icon: () => <div>Title</div>,
-    initialValue: 'This is your title',
+    initialValue: '<h1>This is your title<h1/>',
     View: InitiatedRichText
   },
   {
     kind: 'SUBTITLE',
     Icon: () => <div>Subtitle</div>,
-    initialValue: 'This is your subtitle',
+    initialValue: '<h2>This is your subtitle</h2/>',
+    View: InitiatedRichText
+  },
+  {
+    kind: 'BODY',
+    Icon: () => <div>Body</div>,
+    initialValue: '<p>This is your body</p>',
     View: InitiatedRichText
   },
   {
@@ -153,7 +159,11 @@ export function SemanticBlocks({ value, onChange }: Params) {
                 <NodeView
                   key={currNode.id}
                   node={currNode}
-                  onChange={node => onChange(unsafeUpdateAt(index, node, value))}
+                  onChange={node => {
+                    // onChange(unsafeUpdateAt(index, node, value));
+                    unsafeDeleteAt(index, value);
+                    unsafeInsertAt(index, node, value);
+                  }}
                   onDelete={() => onChange(unsafeDeleteAt(index, value))}
                   onAdd={node => onChange(unsafeInsertAt(index + 1, node, value))}
                 />

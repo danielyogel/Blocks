@@ -1,6 +1,6 @@
 import React from 'react';
-import { SemanticBlocks, NodeValue } from './index';
-import '../../index.css';
+import { SemanticBlocks, NodeValue } from '../index';
+import '../index.css';
 
 const INITIAL_STATE: Array<NodeValue> = [];
 
