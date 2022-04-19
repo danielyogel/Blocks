@@ -132,7 +132,7 @@ type Nodes = Array<NodeValue>;
 
 type Params = {
   value: Nodes;
-  onChange: (nodes: Nodes) => void;
+  onChange: React.Dispatch<React.SetStateAction<NodeValue[]>>;
 };
 
 export function SemanticBlocks({ value, onChange }: Params) {
@@ -149,7 +149,7 @@ export function SemanticBlocks({ value, onChange }: Params) {
             if (over && active.id !== over.id) {
               const oldIndex = value.findIndex(i => i.id === active.id);
               const newIndex = value.findIndex(i => i.id === over.id);
-              onChange(arrayMove(value, oldIndex, newIndex));
+              onChange(v => arrayMove(v, oldIndex, newIndex));
             }
           }}
         >
@@ -159,13 +159,9 @@ export function SemanticBlocks({ value, onChange }: Params) {
                 <NodeView
                   key={currNode.id}
                   node={currNode}
-                  onChange={node => {
-                    // onChange(unsafeUpdateAt(index, node, value));
-                    unsafeDeleteAt(index, value);
-                    unsafeInsertAt(index, node, value);
-                  }}
-                  onDelete={() => onChange(unsafeDeleteAt(index, value))}
-                  onAdd={node => onChange(unsafeInsertAt(index + 1, node, value))}
+                  onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
+                  onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
+                  onAdd={node => onChange(value => unsafeInsertAt(index + 1, node, value))}
                 />
               );
             })}
@@ -173,7 +169,7 @@ export function SemanticBlocks({ value, onChange }: Params) {
         </DndContext>
       </div>
 
-      <div>{!value.length && <BlocksMenu onSelect={node => onChange([...value, node])} />}</div>
+      <div>{!value.length && <BlocksMenu onSelect={node => onChange(value => [...value, node])} />}</div>
     </div>
   );
 }
