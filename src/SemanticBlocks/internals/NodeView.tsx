@@ -3,7 +3,7 @@ import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import { XIcon, XIconClear, DragIcon } from '../../components/icons';
 import { NodeValue } from '../index';
-import { Blocks } from '../index';
+import { Blocks } from '../Blocks';
 import { BlocksMenu } from './BlocksMenu';
 import { unsafeInsertAt } from '../../utils';
 
