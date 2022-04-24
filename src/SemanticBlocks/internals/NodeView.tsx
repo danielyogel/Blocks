@@ -6,18 +6,16 @@ import { NodeValue } from '../index';
 import { Blocks } from '../Blocks';
 import { BlocksMenu } from './BlocksMenu';
 import { unsafeInsertAt } from '../../utils';
+import classNames from 'classnames';
 
-export const NodeView = ({
-  node,
-  onDelete,
-  onChange,
-  onAdd
-}: {
+type Params = {
   node: NodeValue;
   onDelete: () => void;
   onChange: (node: NodeValue) => void;
   onAdd: (node: NodeValue) => void;
-}) => {
+};
+
+export const NodeView = ({ node, onDelete, onChange, onAdd }: Params) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
 
   const View = React.useMemo(() => Blocks.find(b => b.kind === node.kind), [node.kind])?.View;
@@ -28,7 +26,6 @@ export const NodeView = ({
 
   return (
     <div
-      className='group'
       ref={setNodeRef}
       {...attributes}
       style={{
@@ -41,7 +38,7 @@ export const NodeView = ({
     >
       <div>
         <div className='flex group items-center'>
-          <div className='grow-0 shrink-0 w-20 opacity-0 group-hover:opacity-100 duration-500'>
+          <div className={classNames('grow-0 shrink-0 w-20 group-hover:opacity-100 duration-500', { 'opacity-0': !isDragging })}>
             <div>
               <div className='pl-2'>
                 <div className='w-5 mb-1'>
@@ -56,7 +53,7 @@ export const NodeView = ({
           <div>
             <div>
               <div>
-                <div className='capitalize font-bold text-sm'>{node.kind.toLowerCase().split('_')}</div>
+                {/* <div className='capitalize font-bold text-sm'>{node.kind.toLowerCase().split('_')}</div> */}
                 <div>
                   <View content={node.content} onChange={content => onChange({ ...node, content })} />
                 </div>
@@ -65,8 +62,9 @@ export const NodeView = ({
           </div>
         </div>
       </div>
-      <div className='group-hover:opacity-100 opacity-0 duration-300'>
-        <BlocksMenu onSelect={onAdd} />
+
+      <div>
+        <BlocksMenu onSelect={onAdd} staticMode={false} />
       </div>
     </div>
   );

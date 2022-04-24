@@ -8,6 +8,9 @@ import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Menu from './Menu';
+import { Exts } from './Exts';
+
+export type Extention = typeof Exts[number]['name'];
 
 type Params = {
   value: string | null;
@@ -16,9 +19,10 @@ type Params = {
   readOnly?: boolean;
   placeholder?: string;
   uploader: (file: File) => Promise<string>;
+  allowedExtentions: Array<Extention>;
 };
 
-export function RichTextEditor({ value, onChange, height, readOnly = false, placeholder, uploader }: Params) {
+export function RichTextEditor({ value, onChange, height, readOnly = false, placeholder, uploader, allowedExtentions }: Params) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ codeBlock: false }),
@@ -57,13 +61,13 @@ export function RichTextEditor({ value, onChange, height, readOnly = false, plac
   }
 
   return (
-    <div className='w-full group '>
-      <div className='h-8 flex justify-start items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in'>
-        <Menu editor={editor} uploader={uploader} />
+    <div className='w-full group'>
+      <div className='h-6 flex justify-start items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in'>
+        <Menu editor={editor} uploader={uploader} allowedExtentions={allowedExtentions} />
       </div>
 
       <div
-        className={`${height} overflow-y-auto cursor-pointer`}
+        className={`${height} overflow-y-hidden cursor-pointer`}
         onClick={() => {
           editor.chain().focus().run();
         }}

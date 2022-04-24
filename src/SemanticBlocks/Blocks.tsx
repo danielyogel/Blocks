@@ -7,19 +7,32 @@ export const Blocks = [
     kind: 'TITLE',
     Icon: () => <div>Title</div>,
     initialValue: '<h1>This is your title<h1/>',
-    View: RichText
+    View: RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])
   },
   {
     kind: 'SUBTITLE',
     Icon: () => <div>Subtitle</div>,
     initialValue: '<h2>This is your subtitle</h2/>',
-    View: RichText
+    View: RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])
   },
   {
     kind: 'BODY',
     Icon: () => <div>Body</div>,
     initialValue: '<p>This is your body</p>',
-    View: RichText
+    View: RichText([
+      'Bold',
+      'Italic',
+      'Strike',
+      'Underline',
+      'redo',
+      'undo',
+      'Highlight',
+      'bulletList',
+      'image',
+      'link',
+      'setTextAlign',
+      'orderedList'
+    ])
   },
   {
     kind: 'IMAGE',
@@ -29,18 +42,12 @@ export const Blocks = [
       const [isOpen, setIsOpen] = React.useState(false);
       return (
         <div>
-          <div onClick={() => setIsOpen(true)} className='h-40 w-40'>
-            {params.content ? (
-              <img
-                src={params.content || 'https://storage.googleapis.com/pp-local-dev-bucket/backoffice/Te_8E0P37IZoTZftguNqI_mono.jpeg'}
-                alt={params.content}
-                className='w-full object-contain'
-              />
-            ) : (
-              <div>
-                <ImageIcon onClick={() => {}} isDisabled={false} />
-              </div>
-            )}
+          <div onClick={() => setIsOpen(true)} className='w-9/12 max-w-6xl'>
+            <img
+              src={params.content || 'https://res.cloudinary.com/dgft70etn/image/upload/v1650810106/ImageUploads/e9ezl1KHOn32q3sU2wTyP_blob.jpg'}
+              alt={params.content}
+              className='w-full object-contain'
+            />
           </div>
           <div>
             <BaseModal
@@ -81,36 +88,36 @@ export const Blocks = [
     kind: 'VIDEO',
     Icon: () => <div>Video</div>,
     initialValue: '',
-    View: RichText
+    View: RichText([])
   },
   {
     kind: 'GALLERY',
     Icon: () => <div>Gallery</div>,
     initialValue: '',
-    View: RichText
+    View: RichText([])
   },
   {
     kind: 'EMBED_CODE',
     Icon: () => <div>Embed Code</div>,
     initialValue: '',
-    View: RichText
+    View: RichText([])
   },
   {
     kind: 'ABSTRACT',
     Icon: () => <div>Abstract</div>,
     initialValue: '',
-    View: RichText
+    View: RichText([])
   },
   {
     kind: 'DATA',
     Icon: () => <div>Data</div>,
     initialValue: '',
-    View: RichText
+    View: RichText([])
   },
   {
     kind: 'AUTHORS',
     Icon: () => <div>Authors</div>,
     initialValue: '',
-    View: RichText
+    View: RichText([])
   }
 ] as const;

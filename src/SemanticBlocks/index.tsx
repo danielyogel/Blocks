@@ -51,7 +51,7 @@ export function SemanticBlocks({ value, onChange }: Params) {
         </DndContext>
       </div>
 
-      <div>{!value.length && <BlocksMenu onSelect={node => onChange(value => [...value, node])} />}</div>
+      <div>{!value.length && <BlocksMenu onSelect={node => onChange(value => [...value, node])} staticMode />}</div>
     </div>
   );
 }
