@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseModal, ImageIcon } from '../components';
+import { BaseModal } from '../components';
 import { RichText } from './Editors';
 
 export const Blocks = [

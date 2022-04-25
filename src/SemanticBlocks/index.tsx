@@ -5,6 +5,9 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
 import { Blocks } from './Blocks';
+import { HTMLIcon } from '../components';
+import { blocksToHTML } from '../convertors';
+import { jsPDF } from 'jspdf';
 
 export type NodeValue = {
   id: string;
@@ -22,6 +25,24 @@ export function SemanticBlocks({ value, onChange }: Params) {
 
   return (
     <div>
+      <div className='mb-6 ml-2 flex justify-start items-center'>
+        <div className='w-5 cursor-pointer' onClick={() => navigator.clipboard.writeText(blocksToHTML(value))}>
+          <HTMLIcon />
+        </div>
+        <div
+          className='w-5 ml-3 cursor-pointer'
+          onClick={() => {
+            var doc = new jsPDF();
+
+            doc.html(blocksToHTML(value), {
+              width: 300,
+              callback: doc => doc.save()
+            });
+          }}
+        >
+          PDF
+        </div>
+      </div>
       <div>
         <DndContext
           sensors={sensors}

@@ -62,6 +62,7 @@
     "fp-ts": "2.12.0",
     "framer-motion": "^6.3.1",
     "io-ts": "^2.2.16",
+    "jspdf": "^2.5.1",
     "lodash": "^4.17.21",
     "mobx": "^6.5.0",
     "mobx-react-lite": "^3.3.0",
