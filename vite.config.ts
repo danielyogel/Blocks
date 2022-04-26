@@ -15,7 +15,8 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/index.tsx'),
       name: 'KnowlegeEditor',
-      fileName: format => `KnowlegeEditor.${format}.js`
+      fileName: format => `KnowlegeEditor.${format}.js`,
+      formats: ['es']
     },
     rollupOptions: {
       //   make sure to externalize deps that shouldn't be bundled
@@ -23,7 +24,8 @@ export default defineConfig({
       external: ['react', 'mobx'],
       output: {
         // Provide global variables to use in the UMD build
-        // for externalized deps
+        // for externalized deps,
+
         globals: {
           react: 'React',
           mobx: 'mobx'
