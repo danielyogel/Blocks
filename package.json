@@ -46,9 +46,9 @@
     "@dnd-kit/core": "^5.0.3",
     "@dnd-kit/modifiers": "^5.0.0",
     "@dnd-kit/sortable": "^6.0.1",
-    "@headlessui/react": "^1.5.0",
+    "@headlessui/react": "^1.6.0",
     "@heroicons/react": "^1.0.6",
-    "@ladle/react": "^0.12.2",
+    "@ladle/react": "^0.13.0",
     "@tiptap/extension-heading": "^2.0.0-beta.26",
     "@tiptap/extension-highlight": "^2.0.0-beta.33",
     "@tiptap/extension-image": "^2.0.0-beta.27",
@@ -60,7 +60,7 @@
     "@tiptap/starter-kit": "^2.0.0-beta.183",
     "csstype": "^3.0.11",
     "fp-ts": "2.12.0",
-    "framer-motion": "^6.3.1",
+    "framer-motion": "^6.3.2",
     "io-ts": "^2.2.16",
     "jspdf": "^2.5.1",
     "lodash": "^4.17.21",
@@ -89,8 +89,8 @@
     "tslib": "^2.4.0",
     "type-fest": "2.12.2",
     "typescript": "^4.6.3",
-    "vite": "^2.9.5",
-    "vitest": "^0.9.4"
+    "vite": "^2.9.6",
+    "vitest": "^0.10.0"
   },
   "peerDependencies": {
     "mobx": "^6.5.0",

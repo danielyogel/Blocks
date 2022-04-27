@@ -25,24 +25,23 @@ export function SemanticBlocks({ value, onChange }: Params) {
 
   return (
     <div>
-      <div className='mb-6 ml-2 flex justify-start items-center'>
-        <div className='w-5 cursor-pointer' onClick={() => navigator.clipboard.writeText(blocksToHTML(value))}>
-          <HTMLIcon />
-        </div>
-        <div
-          className='w-5 ml-3 cursor-pointer'
-          onClick={() => {
-            var doc = new jsPDF();
-
-            doc.html(blocksToHTML(value), {
-              width: 300,
-              callback: doc => doc.save()
-            });
+      {/* <div className='mb-6 ml-2 flex justify-start items-center'> */}
+      {/* <input
+          type='file'
+          id=''
+          onChange={e => {
+            const file = e.target.files?.[0];
+            if (file) {
+              // const text = PdfToText(file)
+              var loadingTask: any = pdfjs.getFilenameFromUrl('https://bitcoin.org/bitcoin.pdf');
+              // loadingTask.promise.then(function (pdf: any) {
+              //   console.log(pdf);
+              // });
+            }
           }}
-        >
-          PDF
-        </div>
-      </div>
+          accept='.pdf'
+        /> */}
+      {/* </div> */}
       <div>
         <DndContext
           sensors={sensors}
