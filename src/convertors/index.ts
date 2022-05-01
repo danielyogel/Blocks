@@ -1,2 +1,2 @@
 export * from './blocksToHTML';
-export * from './PdfToText';
+export * from './PdfToJson';

@@ -26,21 +26,39 @@ export function SemanticBlocks({ value, onChange }: Params) {
   return (
     <div>
       {/* <div className='mb-6 ml-2 flex justify-start items-center'> */}
-      {/* <input
-          type='file'
-          id=''
-          onChange={e => {
-            const file = e.target.files?.[0];
-            if (file) {
-              // const text = PdfToText(file)
-              var loadingTask: any = pdfjs.getFilenameFromUrl('https://bitcoin.org/bitcoin.pdf');
-              // loadingTask.promise.then(function (pdf: any) {
-              //   console.log(pdf);
-              // });
-            }
-          }}
-          accept='.pdf'
-        /> */}
+      <input
+        type='file'
+        id=''
+        onChange={async e => {
+          const file = e.target.files?.[0];
+          if (file) {
+            console.log(file);
+            // const result = await fetch('http://api.convertio.co/convert', {
+            //   method: 'POST',
+            //   body: JSON.stringify({
+            //     file: 'https://bitcoin.org/bitcoin.pdf',
+            //     input: 'url',
+            //     apikey: '8bbfdad646f37adfb3b9f996312b87e9',
+            //     outputformat: 'HTML'
+            //   })
+            // });
+            // const r = await result.json();
+            // const ID = r?.data.id;
+            // console.log({ id: ID, r });
+
+            const resultA = await fetch(`https://api.convertio.co/convert/${'253e1463920b08391853186a1841b20c'}/status`, { method: 'GET' });
+            console.log({ resultA: await resultA.json() });
+
+            const resultB = await fetch(`http://api.convertio.co/convert/${'253e1463920b08391853186a1841b20c'}/dl`, { method: 'GET' });
+            const rrr = await resultB.json();
+            console.log({ resultB: rrr });
+
+            const htmlfile = atob(rrr.data.content);
+            onChange([{ id: 'sdsdsddg', kind: 'BODY', content: htmlfile }]);
+          }
+        }}
+        accept='.pdf'
+      />
       {/* </div> */}
       <div>
         <DndContext
