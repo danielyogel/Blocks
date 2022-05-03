@@ -7,18 +7,36 @@ export const Blocks = [
     kind: 'TITLE',
     Icon: () => <div>Title</div>,
     initialValue: '<h1>This is your title<h1/>',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<h1>${text}</h1>`;
+    },
     View: RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])
   },
   {
     kind: 'SUBTITLE',
     Icon: () => <div>Subtitle</div>,
     initialValue: '<h2>This is your subtitle</h2/>',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<h2>${text}</h2>`;
+    },
     View: RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])
   },
   {
     kind: 'BODY',
     Icon: () => <div>Body</div>,
     initialValue: '<p>This is your body</p>',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<div>${text}</div>`;
+    },
     View: RichText([
       'Bold',
       'Italic',
@@ -38,6 +56,7 @@ export const Blocks = [
     kind: 'IMAGE',
     Icon: () => <div>Image</div>,
     initialValue: '',
+    convertString: null,
     View: (params: { content: string; onChange: (content: string) => void }) => {
       const [isOpen, setIsOpen] = React.useState(false);
       return (
@@ -88,36 +107,72 @@ export const Blocks = [
     kind: 'VIDEO',
     Icon: () => <div>Video</div>,
     initialValue: '',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<div>${text}</div>`;
+    },
     View: RichText([])
   },
   {
     kind: 'GALLERY',
     Icon: () => <div>Gallery</div>,
     initialValue: '',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<div>${text}</div>`;
+    },
     View: RichText([])
   },
   {
     kind: 'EMBED_CODE',
     Icon: () => <div>Embed Code</div>,
     initialValue: '',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<div>${text}</div>`;
+    },
     View: RichText([])
   },
   {
     kind: 'ABSTRACT',
     Icon: () => <div>Abstract</div>,
     initialValue: '',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<div>${text}</div>`;
+    },
     View: RichText([])
   },
   {
     kind: 'DATA',
     Icon: () => <div>Data</div>,
     initialValue: '',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<div>${text}</div>`;
+    },
     View: RichText([])
   },
   {
     kind: 'AUTHORS',
     Icon: () => <div>Authors</div>,
     initialValue: '',
+    convertString: (html: string) => {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      const text = div.innerText;
+      return `<div>${text}</div>`;
+    },
     View: RichText([])
   }
 ] as const;

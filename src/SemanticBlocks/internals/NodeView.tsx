@@ -6,6 +6,7 @@ import { NodeValue } from '../index';
 import { Blocks } from '../Blocks';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
+import { notEmpty } from '../../utils/notEmpty';
 
 type Params = {
   node: NodeValue;
@@ -47,7 +48,14 @@ export const NodeView = ({ node, onDelete, onChange, onAdd }: Params) => {
                   <DragIcon />
                 </div>
                 <div className='w-5 relative overflow-visible text-gray-dark'>
-                  <DropdownMenu items={Blocks.map(b => ({ text: b.kind, onClick: () => onChange({ ...node, kind: b.kind }) }))} />
+                  <DropdownMenu
+                    items={Blocks.map(i => (i.convertString ? i : null))
+                      .filter(notEmpty)
+                      .map(b => ({
+                        text: b.kind,
+                        onClick: () => onChange({ ...node, kind: b.kind, content: b.convertString(node.content) })
+                      }))}
+                  />
                 </div>
               </div>
             </div>

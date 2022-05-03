@@ -1,6 +1,7 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { Menu, Transition } from '@headlessui/react';
+import React, { Fragment } from 'react';
+import { Transition } from '@headlessui/react';
 import { DotsVerticalIcon } from '../';
+import { useOutside } from '../../utils/useOutside';
 
 type Params = {
   items: Array<{
@@ -10,46 +11,51 @@ type Params = {
 };
 
 export function DropdownMenu({ items }: Params) {
+  const [isOpen, setIsOpen] = React.useState<null | { x: number; y: number }>(null);
+
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  useOutside([ref], () => setIsOpen(null), [isOpen]);
+
   return (
-    <div className='absolute top-0 right-0  w-56 text-right'>
-      <Menu as='div' className='relative inline-block text-left'>
-        <div className='w-5'>
-          <Menu.Button className='inline-flex w-full justify-center rounded-md bg-opacity-20 text-gray-dark  text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
+    <div>
+      <div className='relative inline-block text-left'>
+        <div
+          className='w-5'
+          onClick={e => {
+            setIsOpen({ x: e.pageX, y: e.pageY });
+          }}
+        >
+          <div className='inline-flex w-full justify-center rounded-md bg-opacity-20 text-gray-dark  text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
             <DotsVerticalIcon />
-          </Menu.Button>
+          </div>
         </div>
 
-        <Transition
-          as={Fragment}
-          enter='transition ease-out duration-100'
-          enterFrom='transform opacity-0 scale-95'
-          enterTo='transform opacity-100 scale-100'
-          leave='transition ease-in duration-75'
-          leaveFrom='transform opacity-100 scale-100'
-          leaveTo='transform opacity-0 scale-95'
-        >
-          <Menu.Items className='absolute right-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-            <div className='px-1 py-1 '>
-              {items.map(i => {
-                return (
-                  <Menu.Item key={i.text}>
-                    {({ active }) => (
+        <Transition show={!!isOpen} as={Fragment}>
+          <div className='fixed inset-0 z-30' onMouseLeave={() => setIsOpen(null)}>
+            {!!isOpen && (
+              <div
+                ref={ref}
+                className='px-1 py-1 w-28 bg-white relative z-30 mt-2 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
+                style={{ ...(!!isOpen && { top: isOpen.y + 10, left: isOpen.x + 10 }) }}
+              >
+                {items.map(i => {
+                  return (
+                    <div key={i.text}>
                       <button
                         onClick={i.onClick}
-                        className={`${
-                          active ? 'bg-gray text-white' : 'text-gray-darkest'
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm capitalize text-left`}
+                        className={`group flex w-full items-center rounded-md px-2 py-2 text-sm capitalize text-left text-black opacity-70 hover:opacity-100`}
                       >
                         {i.text.toLowerCase().split('_').join(' ')}
                       </button>
-                    )}
-                  </Menu.Item>
-                );
-              })}
-            </div>
-          </Menu.Items>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </Transition>
-      </Menu>
+      </div>
     </div>
   );
 }
