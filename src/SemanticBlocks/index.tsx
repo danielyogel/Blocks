@@ -40,7 +40,6 @@ export function SemanticBlocks({ value, onChange }: Params) {
         }}
         accept='.pdf'
       />
-      {/* </div> */}
       <div className='mt-12'>
         <DndContext
           sensors={sensors}

@@ -1,11 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { XIcon, XIconClear, DragIcon } from '../../components/icons';
+import { XIconClear, DragIcon, DotsVerticalIcon, DropdownMenu } from '../../components';
 import { NodeValue } from '../index';
 import { Blocks } from '../Blocks';
 import { BlocksMenu } from './BlocksMenu';
-import { unsafeInsertAt } from '../../utils';
 import classNames from 'classnames';
 
 type Params = {
@@ -37,15 +36,18 @@ export const NodeView = ({ node, onDelete, onChange, onAdd }: Params) => {
       }}
     >
       <div>
-        <div className='flex group items-center'>
-          <div className={classNames('grow-0 shrink-0 w-20 group-hover:opacity-100 duration-500', { 'opacity-0': !isDragging })}>
+        <div className='flex group items-start'>
+          <div className={classNames('grow-0 shrink-0 w-20 group-hover:opacity-100 duration-500 mt-8', { 'opacity-0': !isDragging })}>
             <div>
-              <div className='pl-2'>
+              <div className='pl-2 flex'>
                 <div className='w-5 mb-1'>
                   <XIconClear onClick={onDelete} mode='X' isDisabled={false} color='black' />
                 </div>
                 <div className='w-5' {...listeners}>
                   <DragIcon />
+                </div>
+                <div className='w-5 relative overflow-visible text-gray-dark'>
+                  <DropdownMenu items={Blocks.map(b => ({ text: b.kind, onClick: () => onChange({ ...node, kind: b.kind }) }))} />
                 </div>
               </div>
             </div>
