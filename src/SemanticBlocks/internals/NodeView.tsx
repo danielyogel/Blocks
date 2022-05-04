@@ -1,8 +1,8 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { XIconClear, DragIcon, DotsVerticalIcon, DropdownMenu } from '../../components';
-import { NodeValue } from '../index';
+import { XIconClear, DragIcon, DropdownMenu } from '../../components';
+import { NodeValue } from '../..';
 import { Blocks } from '../Blocks';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';

@@ -1,4 +1,4 @@
-import { NodeValue } from '../SemanticBlocks';
+import { NodeValue } from '..';
 import { assertNever } from '../utils';
 
 export function blocksToHTML(blocks: Array<NodeValue>) {

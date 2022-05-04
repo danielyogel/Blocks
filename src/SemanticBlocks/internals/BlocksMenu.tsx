@@ -1,6 +1,6 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import { NodeValue } from '../index';
+import { NodeValue } from '../..';
 import { Blocks } from '../Blocks';
 import { XIcon } from '../../components/icons';
 import classNames from 'classnames';

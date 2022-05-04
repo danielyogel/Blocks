@@ -12,7 +12,7 @@ export const Demo = () => {
   }, [state]);
 
   return (
-    <div className='p-20'>
+    <div className='p-4'>
       <SemanticBlocks value={state} onChange={setState} />
     </div>
   );
