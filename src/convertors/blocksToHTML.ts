@@ -3,7 +3,7 @@ import { assertNever } from '../utils';
 
 export function blocksToHTML(blocks: Array<NodeValue>) {
   return blocks
-    .map(function covertBlock(block: NodeValue) {
+    .map((block: NodeValue) => {
       switch (block.kind) {
         case 'ABSTRACT':
           return block.content;
