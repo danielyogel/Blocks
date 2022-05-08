@@ -1,4 +1,4 @@
-import { RichText } from '../BlocksContainer/Editors';
+import { RichText } from '../components/Editors';
 
 export const EMBED_CODE = {
   Icon: () => <div>Embed Code</div>,

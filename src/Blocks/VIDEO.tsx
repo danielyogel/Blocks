@@ -1,4 +1,4 @@
-import { RichText } from '../BlocksContainer/Editors';
+import { RichText } from '../components/Editors';
 
 export const VIDEO = {
   Icon: () => <div>Video</div>,

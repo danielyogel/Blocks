@@ -1,5 +1,5 @@
 import React from 'react';
-import { RichText } from '../BlocksContainer/Editors';
+import { RichText } from '../components/Editors';
 
 export const SUBTITLE = {
   Icon: () => <div>Subtitle</div>,
