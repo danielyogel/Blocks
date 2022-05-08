@@ -10,17 +10,17 @@ const Editor = InitEditor({
 
 export const Demo = () => {
   const [state, setState] = React.useState([
-    { kind: 'TITLE' as const, content: '', id: nanoid() },
-    { kind: 'SUBTITLE' as const, content: '', id: nanoid() },
-    { kind: 'BODY' as const, content: '', id: nanoid() },
-    { kind: 'IMAGE' as const, content: '', id: nanoid() },
-    { kind: 'VIDEO' as const, content: '', id: nanoid() },
+    { kind: 'TITLE' as const, content: 'TITLE', id: nanoid() },
+    { kind: 'SUBTITLE' as const, content: 'SUBTITLE', id: nanoid() },
+    { kind: 'BODY' as const, content: 'BODY', id: nanoid() },
+    { kind: 'IMAGE' as const, content: 'IMAGE', id: nanoid() },
+    { kind: 'VIDEO' as const, content: 'VIDEO', id: nanoid() },
     { kind: 'GELLERY' as const, content: '', id: nanoid() },
-    { kind: 'DATA' as const, content: '', id: nanoid() },
-    { kind: 'EMBED_CODE' as const, content: '', id: nanoid() },
-    { kind: 'AUTHORS' as const, content: '', id: nanoid() },
-    { kind: 'ABSTRACT' as const, content: '', id: nanoid() },
-    { kind: 'FOOTER' as const, content: '', id: nanoid() }
+    { kind: 'DATA' as const, content: 'DATA', id: nanoid() },
+    { kind: 'EMBED_CODE' as const, content: 'EMBED_CODE', id: nanoid() },
+    { kind: 'AUTHORS' as const, content: 'AUTHORS', id: nanoid() },
+    { kind: 'ABSTRACT' as const, content: 'ABSTRACT', id: nanoid() },
+    { kind: 'FOOTER' as const, content: 'FOOTER', id: nanoid() }
   ]);
 
   return (
