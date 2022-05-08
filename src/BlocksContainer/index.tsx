@@ -1,6 +1,6 @@
 import React from 'react';
 import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../utils';
-import { initBlocksMenu } from './internals/BlocksMenu';
+import { BlocksMenu } from './internals/BlocksMenu';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
@@ -18,8 +18,6 @@ export function InitEditor<Key extends string, Blocks extends Record<Key, Block<
   type InferBlock<F> = F extends Block<infer V> ? V : never;
 
   type NodeValue = { [key in keyof OptionsType]: { kind: key; content: InferBlock<OptionsType[key]>; id: string } }[keyof OptionsType];
-
-  const BlocksMenu = initBlocksMenu(blocks);
 
   type Params = {
     value: Array<NodeValue>;
@@ -83,7 +81,7 @@ export function InitEditor<Key extends string, Blocks extends Record<Key, Block<
           </DndContext>
         </div>
 
-        <div>{!value.length && <BlocksMenu onSelect={node => onChange(value => [...value, node])} staticMode />}</div>
+        <div>{!value.length && <BlocksMenu blocks={blocks} onSelect={node => onChange(value => [...value, node])} staticMode />}</div>
       </div>
     );
   };

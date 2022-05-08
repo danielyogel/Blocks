@@ -2,7 +2,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import { XIconClear, DragIcon, DropdownMenu } from '../../components';
-import { initBlocksMenu } from './BlocksMenu';
+import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { notEmpty } from '../../utils/notEmpty';
 import { Block } from '..';
@@ -28,8 +28,6 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
       ),
     [blocks]
   );
-
-  const BlocksMenu = initBlocksMenu(blocks);
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
 
@@ -88,7 +86,7 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
       </div>
 
       <div>
-        <BlocksMenu onSelect={onAdd} staticMode={false} />
+        <BlocksMenu blocks={blocks} onSelect={onAdd} staticMode={false} />
       </div>
     </div>
   );
