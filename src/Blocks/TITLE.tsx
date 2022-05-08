@@ -1,5 +1,5 @@
 import React from 'react';
-import { RichText } from '../SemanticBlocks/Editors';
+import { RichText } from '../BlocksContainer/Editors';
 
 export const TITLE = {
   Icon: () => <div>Title</div>,
