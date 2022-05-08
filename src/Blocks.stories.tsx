@@ -1,8 +1,8 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import { InitEditor } from '../index';
-import '../index.css';
-import { TITLE, ABSTRACT, AUTHORS, BODY, GELLERY, IMAGE, SUBTITLE } from '../Blocks';
+import { InitEditor } from './index';
+import './index.css';
+import { TITLE, ABSTRACT, AUTHORS, BODY, GELLERY, IMAGE, SUBTITLE } from './Blocks';
 
 const Editor = InitEditor({
   blocks: { TITLE, BODY, IMAGE, SUBTITLE, GELLERY, AUTHORS, ABSTRACT }
