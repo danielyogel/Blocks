@@ -1,6 +1,7 @@
+import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
-export const EMBED_CODE = {
+export const EMBED_CODE: Block<string> = {
   Icon: () => <div>Embed Code</div>,
   initialValue: '',
   convertString: (html: string) => {

@@ -5,19 +5,16 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
 import { StyledDropzone } from '../components';
+import { Block, InferBlockValue } from './types';
 
-export type Block<Value> = {
-  initialValue: any;
-  Icon: React.FC;
-  convertString: null | ((value: Value) => string);
-  View: React.FC<{ content: Value; onChange: (content: Value) => void }>;
+type Params<K extends string, Blocks extends Record<K, Block<any>>> = {
+  blocks: Blocks;
 };
 
-export function InitEditor<Key extends string, Blocks extends Record<Key, Block<any>>>({ blocks }: { blocks: Blocks }) {
-  type OptionsType = typeof blocks;
-  type InferBlock<F> = F extends Block<infer V> ? V : never;
+export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ blocks }: Params<K, B>) {
+  type BlocksType = typeof blocks;
 
-  type NodeValue = { [key in keyof OptionsType]: { kind: key; content: InferBlock<OptionsType[key]>; id: string } }[keyof OptionsType];
+  type NodeValue = { [key in keyof BlocksType]: { kind: key; content: InferBlockValue<BlocksType[key]>; id: string } }[keyof BlocksType];
 
   type Params = {
     value: Array<NodeValue>;

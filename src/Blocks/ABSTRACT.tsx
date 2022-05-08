@@ -1,6 +1,7 @@
+import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
-export const ABSTRACT = {
+export const ABSTRACT: Block<string> = {
   Icon: () => <div>Abstract</div>,
   initialValue: '',
   convertString: (html: string) => {

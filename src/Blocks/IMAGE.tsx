@@ -1,7 +1,8 @@
 import React from 'react';
+import { Block } from '../BlocksContainer/types';
 import { BaseModal } from '../components';
 
-export const IMAGE = {
+export const IMAGE: Block<string> = {
   Icon: () => <div>Image</div>,
   initialValue: '',
   convertString: null,

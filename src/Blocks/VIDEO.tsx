@@ -1,6 +1,7 @@
+import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
-export const VIDEO = {
+export const VIDEO: Block<string> = {
   Icon: () => <div>Video</div>,
   initialValue: '',
   convertString: (html: string) => {

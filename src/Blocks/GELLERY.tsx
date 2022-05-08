@@ -1,6 +1,7 @@
+import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
-export const GELLERY = {
+export const GELLERY: Block<string> = {
   Icon: () => <div>Gallery</div>,
   initialValue: '',
   convertString: (html: string) => {

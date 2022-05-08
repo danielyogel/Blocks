@@ -5,7 +5,7 @@ import { XIconClear, DragIcon, DropdownMenu } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { notEmpty } from '../../utils/notEmpty';
-import { Block } from '..';
+import { Block } from '../types';
 
 type NodeValue = { id: string; kind: any; content: any };
 

@@ -1,7 +1,8 @@
 import React from 'react';
+import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
-export const BODY = {
+export const BODY: Block<string> = {
   Icon: () => <div>Body</div>,
   initialValue: '<p>This is your body</p>',
   convertString: (html: string) => {
