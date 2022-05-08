@@ -18,7 +18,7 @@ type Params = {
 };
 
 export const initNodeView = (blocks: Record<string, Block<any>>) => {
-  const _blocks = pipe(
+  const BLOCKS_WITH_KIND = pipe(
     blocks,
     mapWithIndex((kind, block) => ({ ...block, kind })),
     blocks => Object.values(blocks)
@@ -29,7 +29,7 @@ export const initNodeView = (blocks: Record<string, Block<any>>) => {
   return ({ node, onDelete, onChange, onAdd }: Params) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
 
-    const View = React.useMemo(() => _blocks.find(b => b.kind === node.kind), [node.kind])?.View;
+    const View = React.useMemo(() => BLOCKS_WITH_KIND.find(b => b.kind === node.kind), [node.kind])?.View;
 
     if (!View) {
       return null;
@@ -60,8 +60,7 @@ export const initNodeView = (blocks: Record<string, Block<any>>) => {
                   </div>
                   <div className='w-5 relative overflow-visible text-gray-dark'>
                     <DropdownMenu
-                      items={_blocks
-                        .map(i => (i.convertString ? { ...i, convertString: i.convertString } : null))
+                      items={BLOCKS_WITH_KIND.map(i => (i.convertString ? { ...i, convertString: i.convertString } : null))
                         .filter(notEmpty)
                         .map(b => ({
                           text: b.kind,

@@ -8,7 +8,7 @@ import { mapWithIndex, pipe } from '../../utils';
 import { Block } from '..';
 
 export const initBlocksMenu = (blocks: Record<string, Block<any>>) => {
-  const _blocks = pipe(
+  const BLOCKS_WITH_KIND = pipe(
     blocks,
     mapWithIndex((kind, block) => ({ ...block, kind })),
     blocks => Object.values(blocks)
@@ -62,7 +62,7 @@ export const initBlocksMenu = (blocks: Record<string, Block<any>>) => {
           <AnimatePresence>
             {isOpen && (
               <motion.div initial={{ height: 0 }} animate={{ height: 100 }} exit={{ height: 0 }} className='top-0 z-10 bg-white my-8 overflow-hidden'>
-                {_blocks.map(b => {
+                {BLOCKS_WITH_KIND.map(b => {
                   return (
                     <div
                       key={b.kind}
