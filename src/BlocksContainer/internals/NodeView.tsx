@@ -8,15 +8,6 @@ import { notEmpty } from '../../utils/notEmpty';
 import { Block } from '..';
 import { pipe, mapWithIndex } from '../../utils';
 
-type NodeValue = { id: string; kind: any; content: any };
-
-type Params = {
-  node: NodeValue;
-  onDelete: () => void;
-  onChange: (node: NodeValue) => void;
-  onAdd: (node: NodeValue) => void;
-};
-
 export const initNodeView = (blocks: Record<string, Block<any>>) => {
   const BLOCKS_WITH_KIND = pipe(
     blocks,
@@ -26,10 +17,19 @@ export const initNodeView = (blocks: Record<string, Block<any>>) => {
 
   const BlocksMenu = initBlocksMenu(blocks);
 
+  type NodeValue = { id: string; kind: any; content: any };
+
+  type Params = {
+    node: NodeValue;
+    onDelete: () => void;
+    onChange: (node: NodeValue) => void;
+    onAdd: (node: NodeValue) => void;
+  };
+
   return ({ node, onDelete, onChange, onAdd }: Params) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
 
-    const View = React.useMemo(() => BLOCKS_WITH_KIND.find(b => b.kind === node.kind), [node.kind])?.View;
+    const View = React.useMemo(() => BLOCKS_WITH_KIND.find(b => b.kind === node.kind)?.View, [node.kind]);
 
     if (!View) {
       return null;
