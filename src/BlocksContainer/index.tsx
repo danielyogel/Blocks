@@ -3,7 +3,7 @@ import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../utils';
 import { initBlocksMenu } from './internals/BlocksMenu';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { initNodeView } from './internals/NodeView';
+import { NodeView } from './internals/NodeView';
 import { StyledDropzone } from '../components';
 
 export type Block<Value> = {
@@ -19,7 +19,6 @@ export function InitEditor<Key extends string, Blocks extends Record<Key, Block<
 
   type NodeValue = { [key in keyof OptionsType]: { kind: key; content: InferBlock<OptionsType[key]>; id: string } }[keyof OptionsType];
 
-  const NodeView = initNodeView(blocks);
   const BlocksMenu = initBlocksMenu(blocks);
 
   type Params = {
@@ -36,9 +35,9 @@ export function InitEditor<Key extends string, Blocks extends Record<Key, Block<
           <StyledDropzone
             accept={{ 'application/pdf': [] }}
             text={
-              <div>
+              <span>
                 Drop a PDF file, or <span className='cursor-pointer font-bold '>browse</span>
-              </div>
+              </span>
             }
             onDrop={async files => {
               const file = files?.[0];
@@ -76,6 +75,7 @@ export function InitEditor<Key extends string, Blocks extends Record<Key, Block<
                     onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
                     onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
                     onAdd={node => onChange(value => unsafeInsertAt(index + 1, node, value))}
+                    blocks={blocks}
                   />
                 );
               })}
