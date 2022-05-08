@@ -6,7 +6,6 @@ import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { notEmpty } from '../../utils/notEmpty';
 import { Block } from '..';
-import { pipe, mapWithIndex } from '../../utils';
 
 type NodeValue = { id: string; kind: any; content: any };
 
@@ -19,15 +18,7 @@ type Params = {
 };
 
 export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
-  const BLOCKS_WITH_KIND = React.useMemo(
-    () =>
-      pipe(
-        blocks,
-        mapWithIndex((kind, block) => ({ ...block, kind })),
-        blocks => Object.values(blocks)
-      ),
-    [blocks]
-  );
+  const BLOCKS_WITH_KIND = Object.entries(blocks).map(([kind, node]) => ({ ...node, kind }));
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
 

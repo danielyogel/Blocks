@@ -4,7 +4,6 @@ import { XIcon } from '../../components/icons';
 import classNames from 'classnames';
 import { useOutside } from '../../utils/useOutside';
 import { motion, AnimatePresence } from 'framer-motion';
-import { mapWithIndex, pipe } from '../../utils';
 import { Block } from '..';
 
 type NodeValue = { id: string; kind: any; content: any };
@@ -16,11 +15,7 @@ type Params = {
 };
 
 export function BlocksMenu({ blocks, onSelect, staticMode }: Params) {
-  const BLOCKS_WITH_KIND = pipe(
-    blocks,
-    mapWithIndex((kind, block) => ({ ...block, kind })),
-    blocks => Object.values(blocks)
-  );
+  const BLOCKS_WITH_KIND = Object.entries(blocks).map(([kind, node]) => ({ ...node, kind }));
 
   const [isOpen, setIsOpen] = React.useState(false);
 
