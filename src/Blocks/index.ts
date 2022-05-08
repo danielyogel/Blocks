@@ -9,3 +9,4 @@ export * from './IMAGE';
 export * from './SUBTITLE';
 export * from './TITLE';
 export * from './VIDEO';
+export * from './CALCULATOR';

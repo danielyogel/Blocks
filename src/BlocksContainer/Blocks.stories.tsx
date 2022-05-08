@@ -2,10 +2,10 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import { InitEditor } from '../index';
 import '../index.css';
-import { FOOTER, TITLE, ABSTRACT, AUTHORS, BODY, DATA, EMBED_CODE, GELLERY, IMAGE, SUBTITLE, VIDEO } from '../Blocks';
+import { FOOTER, TITLE, ABSTRACT, AUTHORS, BODY, DATA, EMBED_CODE, GELLERY, IMAGE, SUBTITLE, VIDEO, CALCULATOR } from '../Blocks';
 
 const Editor = InitEditor({
-  blocks: { TITLE, BODY, IMAGE, SUBTITLE, VIDEO, GELLERY, DATA, EMBED_CODE, AUTHORS, ABSTRACT, FOOTER }
+  blocks: { TITLE, BODY, IMAGE, SUBTITLE, VIDEO, GELLERY, DATA, EMBED_CODE, AUTHORS, ABSTRACT, FOOTER, CALCULATOR }
 });
 
 export const Demo = () => {
@@ -20,7 +20,8 @@ export const Demo = () => {
     { kind: 'EMBED_CODE' as const, content: 'EMBED_CODE', id: nanoid() },
     { kind: 'AUTHORS' as const, content: 'AUTHORS', id: nanoid() },
     { kind: 'ABSTRACT' as const, content: 'ABSTRACT', id: nanoid() },
-    { kind: 'FOOTER' as const, content: 'FOOTER', id: nanoid() }
+    { kind: 'FOOTER' as const, content: 'FOOTER', id: nanoid() },
+    { kind: 'CALCULATOR' as const, content: 3, id: nanoid() }
   ]);
 
   return (
