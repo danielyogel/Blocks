@@ -5,7 +5,6 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
 import { StyledDropzone } from '../components';
-import { parsedApiPDf } from '../parsers/fixtures';
 import { Block, InferBlockValue } from './types';
 
 type Params<K extends string, Blocks extends Record<K, Block<any>>> = {
@@ -17,12 +16,12 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
 
   type NodeValue = { [key in keyof BlocksType]: { kind: key; content: InferBlockValue<BlocksType[key]>; id: string } }[keyof BlocksType];
 
-  type Params = {
+  type _Params = {
     value: Array<NodeValue>;
     onChange: React.Dispatch<React.SetStateAction<NodeValue[]>>;
   };
 
-  return function Editor({ value, onChange }: Params) {
+  return function Editor({ value, onChange }: _Params) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     return (
