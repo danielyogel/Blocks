@@ -6,6 +6,7 @@ import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { notEmpty } from '../../utils/notEmpty';
 import { Block } from '../types';
+import { pipe } from '../../utils';
 
 type NodeValue = { id: string; kind: any; content: any };
 
@@ -22,9 +23,9 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
 
-  const View = React.useMemo(() => BLOCKS_WITH_KIND.find(b => b.kind === node.kind)?.View, [node.kind]);
+  const BlockWithKind = React.useMemo(() => BLOCKS_WITH_KIND.find(b => b.kind === node.kind), [node.kind]);
 
-  if (!View) {
+  if (!BlockWithKind) {
     return null;
   }
 
@@ -42,7 +43,7 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
     >
       <div>
         <div className='flex group items-start'>
-          <div className={classNames('grow-0 shrink-0 w-20 group-hover:opacity-100 duration-500 mt-8', { 'opacity-0': !isDragging })}>
+          <div className={classNames('grow-0 shrink-0 w-20 group-hover:opacity-100 duration-500 mt-1', { 'opacity-0': !isDragging })}>
             <div>
               <div className='pl-2 flex'>
                 <div className='w-5 mb-1'>
@@ -53,12 +54,15 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
                 </div>
                 <div className='w-5 relative overflow-visible text-gray-dark'>
                   <DropdownMenu
-                    items={BLOCKS_WITH_KIND.map(i => (i.convertString ? { ...i, convertString: i.convertString } : null))
-                      .filter(notEmpty)
-                      .map(b => ({
-                        text: b.kind,
-                        onClick: () => onChange({ ...node, kind: b.kind, content: b.convertString(node.content) })
-                      }))}
+                    items={BLOCKS_WITH_KIND.map(currBlock => {
+                      return {
+                        text: currBlock.kind,
+                        onClick: () => {
+                          const transformedValue = pipe(node.content, BlockWithKind.stringify, currBlock.parse);
+                          onChange({ ...node, kind: currBlock.kind, content: transformedValue });
+                        }
+                      };
+                    })}
                   />
                 </div>
               </div>
@@ -68,7 +72,7 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
             <div>
               <div>
                 <div>
-                  <View content={node.content} onChange={content => onChange({ ...node, content })} />
+                  <BlockWithKind.View content={node.content} onChange={content => onChange({ ...node, content })} />
                 </div>
               </div>
             </div>

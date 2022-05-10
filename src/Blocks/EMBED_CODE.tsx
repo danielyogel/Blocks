@@ -1,14 +1,16 @@
 import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
+const parse = (text: string) => `<code>${text}<code/>`;
+
 export const EMBED_CODE: Block<string> = {
   Icon: () => <div>Embed Code</div>,
   initialValue: '',
-  convertString: (html: string) => {
+  parse: parse,
+  stringify: html => {
     var div = document.createElement('div');
     div.innerHTML = html;
-    const text = div.innerText;
-    return `<div>${text}</div>`;
+    return div.innerText;
   },
   View: RichText([])
 };

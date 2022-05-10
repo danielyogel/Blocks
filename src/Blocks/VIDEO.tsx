@@ -1,14 +1,16 @@
 import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
+const parse = (text: string) => text;
+
 export const VIDEO: Block<string> = {
   Icon: () => <div>Video</div>,
   initialValue: '',
-  convertString: (html: string) => {
+  parse: parse,
+  stringify: html => {
     var div = document.createElement('div');
     div.innerHTML = html;
-    const text = div.innerText;
-    return `<div>${text}</div>`;
+    return div.innerText;
   },
   View: RichText([])
 };

@@ -2,14 +2,16 @@ import React from 'react';
 import { RichText } from '../components/Editors';
 import { Block } from '../BlocksContainer/types';
 
+const parse = (text: string) => `<h2>${text}<h2/>`;
+
 export const SUBTITLE: Block<string> = {
   Icon: () => <div>Subtitle</div>,
-  initialValue: '<h2>This is your subtitle</h2/>',
-  convertString: (html: string) => {
+  initialValue: parse('This is your subtitle'),
+  parse: parse,
+  stringify: html => {
     var div = document.createElement('div');
     div.innerHTML = html;
-    const text = div.innerText;
-    return `<h2>${text}</h2>`;
+    return div.innerText;
   },
   View: RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])
 };

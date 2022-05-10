@@ -62,9 +62,7 @@ export function RichTextEditor({ value, onChange, height, readOnly = false, plac
 
   return (
     <div className='w-full group'>
-      <div className='h-6 flex justify-start items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in'>
-        <Menu editor={editor} uploader={uploader} allowedExtentions={allowedExtentions} />
-      </div>
+      <Menu editor={editor} uploader={uploader} allowedExtentions={allowedExtentions} />
 
       <div
         className={`${height} overflow-y-hidden cursor-pointer`}

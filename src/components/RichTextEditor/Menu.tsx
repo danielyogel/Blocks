@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Editor } from '@tiptap/react';
+import { Editor, BubbleMenu } from '@tiptap/react';
 import { camelCase, fileToBase64 } from '../../utils/functionalProgramming';
 import { assertNever } from '../../utils/functionalProgramming';
 import { Exts } from './Exts';
@@ -14,7 +14,7 @@ export default function Menu({ editor, uploader, allowedExtentions }: Params) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <>
+    <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className='bg-white px-2 py-2 rounded-sm shadow-gray-dark shadow'>
       {Exts.filter(e => allowedExtentions.includes(e.name)).map((ext, index) => {
         const { action, isActive } = (() => {
           switch (ext.name) {
@@ -92,6 +92,6 @@ export default function Menu({ editor, uploader, allowedExtentions }: Params) {
           }
         }}
       />
-    </>
+    </BubbleMenu>
   );
 }

@@ -5,6 +5,7 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
 import { StyledDropzone } from '../components';
+import { parsedApiPDf } from '../parsers/fixtures';
 import { Block, InferBlockValue } from './types';
 
 type Params<K extends string, Blocks extends Record<K, Block<any>>> = {
@@ -26,7 +27,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
 
     return (
       <div>
-        <div className='w-3/6 ml-20 mb-20'>
+        <div className='ml-20 mb-20'>
           <StyledDropzone
             accept={{ 'application/pdf': [] }}
             text={
@@ -48,6 +49,15 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
             }}
           />
         </div>
+        {/* <div>
+          <button
+            onClick={() => {
+              console.log(parsedApiPDf);
+            }}
+          >
+            Get Parsed PDF
+          </button>
+        </div> */}
         <div className='mt-12'>
           <DndContext
             sensors={sensors}

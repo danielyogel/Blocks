@@ -40,7 +40,7 @@
 .ProseMirror h4,
 .ProseMirror h5,
 .ProseMirror h6 {
-  line-height: 1.1;
+  line-height: 1.3;
 }
 
 .ProseMirror h1 {
@@ -55,6 +55,7 @@
 
 .ProseMirror h3 {
   font-size: 1.4em;
+
   /* font-weight: bold; */
 }
 

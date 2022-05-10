@@ -1,15 +1,34 @@
 import React from 'react';
 import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
+import { groupBy } from '../utils';
 
-export const BODY: Block<string> = {
+export const BODY: Block<{ section: string; text: string; cite_spans: { end: number; ref_id: string | null; start: number; text: string }[] }[]> = {
   Icon: () => <div>Body</div>,
-  initialValue: '<p>This is your body</p>',
-  convertString: (html: string) => {
-    var div = document.createElement('div');
-    div.innerHTML = html;
-    const text = div.innerText;
-    return `<div>${text}</div>`;
+  initialValue: [],
+  parse: string => [{ cite_spans: [], section: string, text: string }],
+  stringify: body => {
+    return JSON.stringify(body);
   },
-  View: RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight', 'bulletList', 'image', 'link', 'setTextAlign', 'orderedList'])
+  View: ({ content, onChange }) => {
+    const grouped = groupBy(content, i => i.section);
+
+    return (
+      <div>
+        <div className='font-bold text-xs mb-1' style={{ fontSize: '10px' }}>
+          Paragraph
+        </div>
+
+        <div>
+          {Object.values(grouped).map((currGroup, i) => {
+            return (
+              <div key={i}>
+                <h1>{currGroup[0].section}</h1>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 };

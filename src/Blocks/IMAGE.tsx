@@ -5,17 +5,26 @@ import { BaseModal } from '../components';
 export const IMAGE: Block<string> = {
   Icon: () => <div>Image</div>,
   initialValue: '',
-  convertString: null,
+  parse: s => s,
+  stringify: html => {
+    var div = document.createElement('div');
+    div.innerHTML = html;
+    return div.innerText;
+  },
   View: (params: { content: string; onChange: (content: string) => void }) => {
     const [isOpen, setIsOpen] = React.useState(false);
     return (
       <div>
         <div onClick={() => setIsOpen(true)} className='w-9/12 max-w-6xl'>
-          <img
-            src={params.content || 'https://res.cloudinary.com/dgft70etn/image/upload/v1650810106/ImageUploads/e9ezl1KHOn32q3sU2wTyP_blob.jpg'}
-            alt={params.content}
-            className='w-full object-contain'
-          />
+          {params.content.includes('video') ? (
+            <video src={params.content} autoPlay muted loop playsInline></video>
+          ) : (
+            <img
+              src={params.content || 'https://res.cloudinary.com/dgft70etn/image/upload/v1650810106/ImageUploads/e9ezl1KHOn32q3sU2wTyP_blob.jpg'}
+              alt={params.content}
+              className='w-full object-contain'
+            />
+          )}
         </div>
         <div>
           <BaseModal

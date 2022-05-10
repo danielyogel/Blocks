@@ -1,14 +1,35 @@
 import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
-export const AUTHORS: Block<string> = {
+const parse = (text: string) => `<h3>${text}<h3/>`;
+
+export const AUTHORS: Block<{ email: string; first: string; last: string; middle: string[]; suffix: string }[]> = {
   Icon: () => <div>Authors</div>,
-  initialValue: '',
-  convertString: (html: string) => {
-    var div = document.createElement('div');
-    div.innerHTML = html;
-    const text = div.innerText;
-    return `<div>${text}</div>`;
+  initialValue: [],
+  parse: () => [], // TODO
+  stringify(authors) {
+    return JSON.stringify(authors);
   },
-  View: RichText([])
+  View: params => {
+    return (
+      <div>
+        <div className='font-bold' style={{ fontSize: '10px' }}>
+          Authors
+        </div>
+
+        <div className='flex mt-2'>
+          {params.content.map((a, i) => {
+            return (
+              <div
+                key={i}
+                className='rounded-full bg-primary px-5 py-1 mr-2 last:mr-9 text-white text-sm opacity-90 hover:opacity-100 transition-opacity duration-200'
+              >
+                {a.first + ' ' + a.last}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 };

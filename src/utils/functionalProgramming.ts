@@ -1,7 +1,9 @@
 export { flow, pipe } from 'fp-ts/function';
+export { left, right, tryCatch, fromPredicate, isLeft, isRight } from 'fp-ts/Either';
 export { map, reverse, filter, mapWithIndex as mapWithIndexArr, unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from 'fp-ts/Array';
 export { mapWithIndex, toArray } from 'fp-ts/Record';
 export { default as mapKeys } from 'lodash/mapKeys';
+export { default as groupBy } from 'lodash/groupBy';
 export { default as mapValues } from 'lodash/mapValues';
 export { default as isEqual } from 'lodash/isEqual';
 export { default as sortBy } from 'lodash/sortBy';

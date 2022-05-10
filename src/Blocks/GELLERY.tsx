@@ -4,11 +4,11 @@ import { RichText } from '../components/Editors';
 export const GELLERY: Block<string> = {
   Icon: () => <div>Gallery</div>,
   initialValue: '',
-  convertString: (html: string) => {
+  parse: s => s,
+  stringify: html => {
     var div = document.createElement('div');
     div.innerHTML = html;
-    const text = div.innerText;
-    return `<div>${text}</div>`;
+    return div.innerText;
   },
   View: RichText([])
 };

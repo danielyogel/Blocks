@@ -1,14 +1,27 @@
 import { Block } from '../BlocksContainer/types';
 import { RichText } from '../components/Editors';
 
-export const ABSTRACT: Block<string> = {
+const parse = (text: string) => `<h3>${text}<h3/>`;
+
+type HTML = string;
+
+export const ABSTRACT: Block<HTML> = {
   Icon: () => <div>Abstract</div>,
-  initialValue: '',
-  convertString: (html: string) => {
-    var div = document.createElement('div');
+  initialValue: parse('This is your abstract'),
+  parse,
+  stringify(html) {
+    const div = document.createElement('div');
     div.innerHTML = html;
-    const text = div.innerText;
-    return `<div>${text}</div>`;
+    return div.innerText;
   },
-  View: RichText([])
+  View(params) {
+    return (
+      <div>
+        <div className='font-bold text-xs mb-1' style={{ fontSize: '10px' }}>
+          Abstract
+        </div>
+        <div>{RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])(params)}</div>
+      </div>
+    );
+  }
 };
