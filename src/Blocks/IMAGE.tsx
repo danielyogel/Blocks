@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block } from '../BlocksContainer/types';
+import type { Block } from '../blocksContainer/types';
 import { BaseModal } from '../components';
 
 export const IMAGE: Block<string> = {

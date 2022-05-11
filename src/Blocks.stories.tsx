@@ -2,7 +2,7 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import { InitEditor } from './index';
 import './index.css';
-import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE } from './Blocks';
+import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE } from './blocks';
 import { parsedApiPDf } from './parsers/fixtures';
 import { parsePdf } from './parsers';
 import { isLeft } from 'fp-ts/lib/Either';

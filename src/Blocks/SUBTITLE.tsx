@@ -1,6 +1,6 @@
 import React from 'react';
 import { RichText } from '../components/Editors';
-import { Block } from '../BlocksContainer/types';
+import type { Block } from '../blocksContainer/types';
 
 const parse = (text: string) => `<h2>${text}<h2/>`;
 

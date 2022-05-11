@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { nanoid } from 'nanoid';
 import { isLeft, isRight, left, right } from '../utils';
 import { parsedApiPDf } from './fixtures';
-import { ABSTRACT, TITLE } from '../Blocks';
+import { ABSTRACT, TITLE } from '../blocks';
 
 const _Schema = z.object({
   title: z.string(),
