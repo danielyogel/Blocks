@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { XIconClear, DragIcon, DropdownMenu } from '../../components';
+import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { Block } from '..';
@@ -12,12 +12,14 @@ type NodeValue = { id: string; kind: any; content: any };
 type Params = {
   node: NodeValue;
   onDelete: () => void;
+  onDuplicate: () => void;
   onChange: (node: NodeValue) => void;
   onAdd: (node: NodeValue) => void;
   blocks: Record<string, Block<any>>;
+  viewMode: boolean;
 };
 
-export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
+export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate, viewMode }: Params) {
   const BLOCKS_WITH_KIND = Object.entries(blocks).map(([kind, node]) => ({ ...node, kind }));
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
@@ -41,27 +43,28 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
       }}
     >
       <div>
-        <div className='flex group items-start'>
+        <div className={classNames('flex group items-start', { 'pointer-events-none': viewMode, 'cursor-auto': viewMode })}>
           <div className={classNames('grow-0 shrink-0 w-20 group-hover:opacity-100 duration-500 mt-1', { 'opacity-0': !isDragging })}>
             <div>
-              <div className='pl-2 flex'>
-                <div className='w-5 mb-1'>
-                  <XIconClear onClick={onDelete} mode='X' isDisabled={false} color='black' />
-                </div>
-                <div className='w-5' {...listeners}>
+              <div className='pl-2 flex justify-end pr-9'>
+                <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors' style={{ top: '2px' }} {...listeners}>
                   <DragIcon />
                 </div>
-                <div className='w-5 relative overflow-visible text-gray-dark'>
+                <div className='w-5 relative overflow-visible text-gray-dark hover:text-gray-darkest transition-colors'>
                   <DropdownMenu
-                    items={BLOCKS_WITH_KIND.map(currBlock => {
-                      return {
-                        text: currBlock.kind,
-                        onClick: () => {
-                          const transformedValue = pipe(node.content, BlockWithKind.stringify, currBlock.parse);
-                          onChange({ ...node, kind: currBlock.kind, content: transformedValue });
-                        }
-                      };
-                    })}
+                    items={[
+                      { onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon },
+                      { onClick: onDuplicate, text: 'Duplicate', separator: true, Icon: DuplicateIcon },
+                      ...BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
+                        return {
+                          text: currBlock.kind,
+                          onClick: () => {
+                            const transformedValue = pipe(node.content, BlockWithKind.stringify, currBlock.parse);
+                            onChange({ ...node, kind: currBlock.kind, content: transformedValue });
+                          }
+                        };
+                      })
+                    ]}
                   />
                 </div>
               </div>
@@ -71,7 +74,7 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
             <div>
               <div>
                 <div>
-                  <BlockWithKind.View content={node.content} onChange={content => onChange({ ...node, content })} />
+                  <BlockWithKind.View content={node.content} onChange={content => onChange({ ...node, content })} viewMode={viewMode} />
                 </div>
               </div>
             </div>
@@ -79,9 +82,13 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete }: Params) {
         </div>
       </div>
 
-      <div>
-        <BlocksMenu blocks={blocks} onSelect={onAdd} staticMode={false} />
-      </div>
+      {viewMode ? (
+        <div className='h-10'></div>
+      ) : (
+        <div>
+          <BlocksMenu blocks={blocks} onSelect={onAdd} staticMode={false} />
+        </div>
+      )}
     </div>
   );
 }

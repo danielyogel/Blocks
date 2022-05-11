@@ -9,6 +9,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Menu from './Menu';
 import { Exts } from './Exts';
+import classNames from 'classnames';
 
 export type Extention = typeof Exts[number]['name'];
 
@@ -35,8 +36,7 @@ export function RichTextEditor({ value, onChange, height, readOnly = false, plac
     ],
     editorProps: { attributes: { class: 'focus:outline-none' } },
     onUpdate: v => onChange(v.editor.getHTML()),
-    content: `${value === null ? '' : value}`,
-    editable: readOnly ? false : true
+    content: `${value === null ? '' : value}`
   });
 
   const [wasInit, setWasInit] = React.useState(false);
@@ -52,16 +52,16 @@ export function RichTextEditor({ value, onChange, height, readOnly = false, plac
     return null;
   }
 
-  if (readOnly) {
-    return (
-      <div className='h-20 overflow-y-auto'>
-        <EditorContent editor={editor} disabled={true} readOnly />
-      </div>
-    );
-  }
+  // if (readOnly) {
+  //   return (
+  //     <div className='h-20 overflow-y-auto'>
+  //       <EditorContent editor={editor} disabled={true} readOnly />
+  //     </div>
+  //   );
+  // }
 
   return (
-    <div className='w-full group'>
+    <div className={classNames('w-full group', { 'pointer-events-none': readOnly })}>
       <Menu editor={editor} uploader={uploader} allowedExtentions={allowedExtentions} />
 
       <div

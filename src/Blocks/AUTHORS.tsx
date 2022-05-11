@@ -22,7 +22,7 @@ export const AUTHORS: Block<{ email: string; first: string; last: string; middle
             return (
               <div
                 key={i}
-                className='rounded-full bg-primary px-5 py-1 mr-2 last:mr-9 text-white text-sm opacity-90 hover:opacity-100 transition-opacity duration-200'
+                className='rounded-full bg-primary px-5 py-1 mr-2 last:mr-9 text-white text-sm opacity-90 hover:opacity-100 transition-opacity duration-200 truncate'
               >
                 {a.first + ' ' + a.last}
               </div>

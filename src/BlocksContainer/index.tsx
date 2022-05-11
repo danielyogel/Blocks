@@ -5,11 +5,13 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
 import { StyledDropzone } from '../components';
+import { nanoid } from 'nanoid';
+import classNames from 'classnames';
 
 export type Block<V> = {
   initialValue: V;
   Icon: React.FC;
-  View: React.FC<{ content: V; onChange: (content: V) => void }>;
+  View: React.FC<{ content: V; onChange: (content: V) => void; viewMode: boolean }>;
   stringify: (value: V) => string;
   parse: (text: string) => V;
 };
@@ -28,14 +30,15 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
   type _Params = {
     value: Array<NodeValue>;
     onChange: React.Dispatch<React.SetStateAction<NodeValue[]>>;
+    viewMode: boolean;
   };
 
-  return function Editor({ value, onChange }: _Params) {
+  return function Editor({ value, onChange, viewMode }: _Params) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     return (
       <div>
-        <div className='ml-20 mb-20'>
+        <div className={classNames('ml-20 mb-20', { invisible: viewMode })}>
           <StyledDropzone
             accept={{ 'application/pdf': [] }}
             text={
@@ -86,9 +89,11 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                     key={currNode.id}
                     node={currNode}
                     onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
+                    onDuplicate={() => onChange(value => unsafeInsertAt(index + 1, { ...currNode, id: nanoid() }, value))}
                     onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
                     onAdd={node => onChange(value => unsafeInsertAt(index + 1, node, value))}
                     blocks={blocks}
+                    viewMode={viewMode}
                   />
                 );
               })}
