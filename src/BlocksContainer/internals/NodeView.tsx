@@ -4,8 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { XIconClear, DragIcon, DropdownMenu } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
-import { notEmpty } from '../../utils/notEmpty';
-import { Block } from '../types';
+import { Block } from '..';
 import { pipe } from '../../utils';
 
 type NodeValue = { id: string; kind: any; content: any };

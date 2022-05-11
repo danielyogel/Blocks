@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Block } from '../blocksContainer/types';
+import type { Block } from '../blocksContainer';
 import { groupBy } from '../utils';
 
 export const BODY: Block<{ section: string; text: string; cite_spans: { end: number; ref_id: string | null; start: number; text: string }[] }[]> = {
