@@ -1,8 +1,5 @@
 import { isLeft } from '.';
 import { Either, Right } from 'fp-ts/lib/Either';
-import { chai, expect } from 'vitest';
-
-chai.use(s => ({ ...s, isRight: {} }));
 
 export function assertRight<R extends any>(either: Either<any, R>): asserts either is Right<R> {
   if (isLeft(either)) {
