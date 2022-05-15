@@ -47,7 +47,7 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate,
           <div className={classNames('grow-0 shrink-0 w-20 group-hover:opacity-100 duration-500 mt-1', { 'opacity-0': !isDragging })}>
             <div>
               <div className='pl-2 flex justify-end pr-9'>
-                <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors' style={{ top: '2px' }} {...listeners}>
+                <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
                   <DragIcon />
                 </div>
                 <div className='w-5 relative overflow-visible text-gray-dark hover:text-gray-darkest transition-colors'>

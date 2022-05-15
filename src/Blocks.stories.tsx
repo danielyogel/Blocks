@@ -2,12 +2,12 @@ import React from 'react';
 import { InitEditor } from './index';
 import './index.css';
 import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE } from './blocks';
-import { parsedApiPDf } from './parsers/fixtures';
-import { parsePdf } from './parsers';
+import { parsedApiPDf } from './parsers/parsePdf/fixtures';
+import { pdfToBlocks } from './parsers/parsePdf/toBlocks';
 import { isLeft } from 'fp-ts/lib/Either';
 import classNames from 'classnames';
 
-const res = parsePdf(parsedApiPDf);
+const res = pdfToBlocks(parsedApiPDf);
 
 if (isLeft(res)) {
   throw new Error(res.left.message, res.left);
