@@ -23,33 +23,39 @@ describe('parses and converts to blocks', () => {
 
   describe('converts marks', () => {
     it('test 1', () => {
-      const parsed = transformCitesToLinks({
-        text: 'one two one three one',
-        cite_spans: [{ start: 0, end: 3, ref_id: 'google', text: '' }],
-        section: ''
-      });
+      const parsed = transformCitesToLinks(
+        {
+          text: 'one two one three one',
+          cite_spans: [{ start: 0, end: 3, ref_id: 'google', text: '' }],
+          section: ''
+        },
+        { google: '1234' }
+      );
 
       expect(parsed).toStrictEqual([
-        { text: 'one', type: 'text', marks: [{ attrs: { href: 'google', target: '_blank' }, type: 'link' }] },
+        { text: 'one', type: 'text', marks: [{ attrs: { href: 'https://www.doi.org/1234', target: '_blank' }, type: 'link' }] },
         { text: ' two one three one', type: 'text' }
       ]);
     });
 
     it('test 2', () => {
-      const parsed = transformCitesToLinks({
-        text: 'a b c d',
-        cite_spans: [
-          { start: 2, end: 3, ref_id: 'first link', text: '' },
-          { start: 5, end: 6, ref_id: 'second link', text: '' }
-        ],
-        section: ''
-      });
+      const parsed = transformCitesToLinks(
+        {
+          text: 'a b c d',
+          cite_spans: [
+            { start: 2, end: 3, ref_id: 'google', text: '' },
+            { start: 5, end: 6, ref_id: 'second link', text: '' }
+          ],
+          section: ''
+        },
+        { google: '999' }
+      );
 
       expect(parsed).toStrictEqual([
         { text: 'a ', type: 'text' },
-        { text: 'b', type: 'text', marks: [{ attrs: { href: 'first link', target: '_blank' }, type: 'link' }] },
+        { text: 'b', type: 'text', marks: [{ attrs: { href: 'https://www.doi.org/999', target: '_blank' }, type: 'link' }] },
         { text: ' c', type: 'text' },
-        { text: ' ', type: 'text', marks: [{ attrs: { href: 'second link', target: '_blank' }, type: 'link' }] },
+        { text: ' ', type: 'text', marks: [{ attrs: { href: null, target: '_blank' }, type: 'link' }] },
         { text: 'd', type: 'text' }
       ]);
     });
