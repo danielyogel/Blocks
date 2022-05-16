@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  test: { globals: true, includeSource: ['src/**/*.{ts,tsx}'], exclude: ['src/**/*.stories.{ts,tsx}'] },
+  test: { globals: true, includeSource: ['src/**/*.{ts,tsx}'] },
   define: {
     'import.meta.vitest': 'undefined'
   },
