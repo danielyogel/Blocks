@@ -1,17 +1,57 @@
 import { parsedApiPDf } from './fixtures';
 import { Result_Schema } from './ARTICLE_BLOCKS_SCHEMA';
-import { pdfToBlocks } from './toBlocks';
+import { pdfToBlocks, transformCitesToLinks } from './toBlocks';
 import { assertRight } from '../../utils';
 
-it('parses "parsedApiPdf', () => {
-  const blocksResult = pdfToBlocks(parsedApiPDf);
-  assertRight(blocksResult);
-});
+describe('parses and converts to blocks', () => {
+  describe('parses "parsedApiPdf', () => {
+    it('test 1', () => {
+      const blocksResult = pdfToBlocks(parsedApiPDf);
+      assertRight(blocksResult);
+    });
+  });
 
-it('converts to blocks', () => {
-  const parsed = pdfToBlocks(parsedApiPDf);
-  assertRight(parsed);
+  describe('converts to blocks', () => {
+    it('test 1', () => {
+      const parsed = pdfToBlocks(parsedApiPDf);
+      assertRight(parsed);
 
-  const res = Result_Schema(parsed.right);
-  assertRight(res);
+      const res = Result_Schema(parsed.right);
+      assertRight(res);
+    });
+  });
+
+  describe('converts marks', () => {
+    it('test 1', () => {
+      const parsed = transformCitesToLinks({
+        text: 'one two one three one',
+        cite_spans: [{ start: 0, end: 3, ref_id: 'google', text: '' }],
+        section: ''
+      });
+
+      expect(parsed).toStrictEqual([
+        { text: 'one', type: 'text', marks: [{ attrs: { href: 'google', target: '_blank' }, type: 'link' }] },
+        { text: ' two one three one', type: 'text' }
+      ]);
+    });
+
+    it('test 2', () => {
+      const parsed = transformCitesToLinks({
+        text: 'a b c d',
+        cite_spans: [
+          { start: 2, end: 3, ref_id: 'first link', text: '' },
+          { start: 5, end: 6, ref_id: 'second link', text: '' }
+        ],
+        section: ''
+      });
+
+      expect(parsed).toStrictEqual([
+        { text: 'a ', type: 'text' },
+        { text: 'b', type: 'text', marks: [{ attrs: { href: 'first link', target: '_blank' }, type: 'link' }] },
+        { text: ' c', type: 'text' },
+        { text: ' ', type: 'text', marks: [{ attrs: { href: 'second link', target: '_blank' }, type: 'link' }] },
+        { text: 'd', type: 'text' }
+      ]);
+    });
+  });
 });

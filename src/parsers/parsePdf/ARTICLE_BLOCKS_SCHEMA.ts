@@ -5,10 +5,30 @@ import { _InputSchema } from './toBlocks';
 export const TIPTAP_JSON = z.object({
   type: z.literal('doc'),
   content: z.array(
-    z.object({
-      type: z.union([z.literal('header'), z.literal('paragraph')]),
-      content: z.array(z.object({ type: z.literal('text'), text: z.string() }))
-    })
+    z.union([
+      z.object({
+        type: z.literal('heading'),
+        attrs: z.object({ level: z.literal(2) }),
+        content: z.array(
+          z.object({
+            type: z.literal('text'),
+            text: z.string()
+          })
+        )
+      }),
+      z.object({
+        type: z.literal('paragraph'),
+        content: z.array(
+          z.object({
+            type: z.literal('text'),
+            text: z.string(),
+            marks: z
+              .tuple([z.object({ type: z.literal('link'), attrs: z.object({ href: z.string().nullable(), target: z.literal('_blank') }) })])
+              .optional()
+          })
+        )
+      })
+    ])
   )
 });
 
