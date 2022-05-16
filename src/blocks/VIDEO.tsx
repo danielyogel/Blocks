@@ -1,4 +1,4 @@
-import type { Block } from '../blocksContainer';
+import type { Block } from '../blocks-container';
 import { RichText } from '../components/Editors';
 
 const parse = (text: string) => text;

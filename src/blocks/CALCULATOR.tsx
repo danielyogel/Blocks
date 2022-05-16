@@ -1,4 +1,4 @@
-import type { Block } from '../blocksContainer';
+import type { Block } from '../blocks-container';
 
 export const CALCULATOR: Block<number> = {
   Icon: () => <div>CALCULATOR</div>,
