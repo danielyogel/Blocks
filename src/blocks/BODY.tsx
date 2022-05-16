@@ -1,6 +1,6 @@
 import { Content, JSONContent } from '@tiptap/react';
 import React from 'react';
-import type { Block } from '../bbb';
+import type { Block } from '../blocksContainer';
 import { RichText, RichTextJSON } from '../components/Editors';
 import { groupBy } from '../utils';
 

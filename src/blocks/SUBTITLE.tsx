@@ -1,12 +1,12 @@
 import React from 'react';
-import type { Block } from '../bbb';
 import { RichText } from '../components/Editors';
+import type { Block } from '../blocksContainer';
 
-const parse = (text: string) => `<h1>${text}<h1/>`;
+const parse = (text: string) => `<h2>${text}<h2/>`;
 
-export const TITLE: Block<string> = {
-  Icon: () => <div>Title</div>,
-  initialValue: '<h1>This is your title<h1/>',
+export const SUBTITLE: Block<string> = {
+  Icon: () => <div>Subtitle</div>,
+  initialValue: parse('This is your subtitle'),
   parse: parse,
   stringify: html => {
     var div = document.createElement('div');

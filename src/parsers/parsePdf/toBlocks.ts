@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { nanoid } from 'nanoid';
 import { groupBy, isLeft, isRight, left, right } from '../../utils';
 import { parsedApiPDf } from './fixtures';
-import { ABSTRACT, TITLE } from '../../b';
+import { ABSTRACT, TITLE } from '../../blocks';
 import { Content } from '@tiptap/react';
 
 export const _InputSchema = z.object({

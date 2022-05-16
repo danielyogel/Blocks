@@ -1,10 +1,12 @@
-import type { Block } from '../bbb';
+import type { Block } from '../blocksContainer';
 import { RichText } from '../components/Editors';
 
-export const GELLERY: Block<string> = {
-  Icon: () => <div>Gallery</div>,
+const parse = (text: string) => `<code>${text}<code/>`;
+
+export const EMBED_CODE: Block<string> = {
+  Icon: () => <div>Embed Code</div>,
   initialValue: '',
-  parse: s => s,
+  parse: parse,
   stringify: html => {
     var div = document.createElement('div');
     div.innerHTML = html;
