@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  test: { globals: true, includeSource: ['src/**/*.{ts,tsx}'] },
+  test: { globals: true, includeSource: ['src/**/*.{ts,tsx}'], exclude: ['src/**/*.stories.{ts,tsx}'] },
   define: {
     'import.meta.vitest': 'undefined'
   },
@@ -14,8 +14,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.tsx'),
-      name: 'KnowlegeEditor',
-      fileName: format => `KnowlegeEditor.${format}.js`,
+      name: 'blocks',
+      fileName: format => `blocks.${format}.js`,
       formats: ['es']
     },
     rollupOptions: {
