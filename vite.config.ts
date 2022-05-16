@@ -16,7 +16,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, 'src/index.tsx'),
       name: 'blocks',
       fileName: format => `blocks.${format}.js`,
-      formats: ['es', 'umd']
+      formats: ['es', 'cjs']
     },
     rollupOptions: {
       //   make sure to externalize deps that shouldn't be bundled

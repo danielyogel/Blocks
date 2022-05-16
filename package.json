@@ -4,12 +4,12 @@
   "author": "Daniel Yogel",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "./dist/blocks.umd.js",
+  "main": "./dist/blocks.cjs.js",
   "module": "./dist/blocks.es.js",
   "exports": {
     ".": {
       "import": "./dist/blocks.es.js",
-      "require": "./dist/blocks.umd.js"
+      "require": "./dist/blocks.cjs.js"
     }
   },
   "typings": "dist/index.d.ts",
