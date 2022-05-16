@@ -3,6 +3,6 @@ import './index.css';
 import './proseMirror.css';
 
 export * from './bbb';
-export * from './blocks';
+export * from './b';
 
 configure({ enforceActions: 'never' });

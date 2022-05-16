@@ -1,7 +1,7 @@
 import React from 'react';
 import { InitEditor } from './index';
 import './index.css';
-import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE } from './blocks';
+import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE } from './b';
 import { parsedApiPDf } from './parsers/parsePdf/fixtures';
 import { pdfToBlocks } from './parsers/parsePdf/toBlocks';
 import { isLeft } from 'fp-ts/lib/Either';
