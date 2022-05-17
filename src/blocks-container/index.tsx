@@ -4,9 +4,7 @@ import { BlocksMenu } from './internals/BlocksMenu';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
-import { StyledDropzone } from '../components';
 import { nanoid } from 'nanoid';
-import classNames from 'classnames';
 
 export type Block<V> = {
   initialValue: V;
@@ -38,37 +36,6 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
 
     return (
       <div>
-        <div className={classNames('ml-20 mb-20', { invisible: viewMode })}>
-          <StyledDropzone
-            accept={{ 'application/pdf': [] }}
-            text={
-              <span>
-                Drop a PDF file, or <span className='cursor-pointer font-bold '>browse</span>
-              </span>
-            }
-            onDrop={async files => {
-              const file = files?.[0];
-              if (file) {
-                const formData = new FormData();
-                formData.append('file', file);
-                const res = await (
-                  await fetch(new Request('https://blocks-api-1-3the2xxjta-uc.a.run.app/pdfToBlocks'), { method: 'POST', body: formData })
-                ).json();
-
-                onChange(res);
-              }
-            }}
-          />
-        </div>
-        {/* <div>
-          <button
-            onClick={() => {
-              console.log(parsedApiPDf);
-            }}
-          >
-            Get Parsed PDF
-          </button>
-        </div> */}
         <div className='mt-12'>
           <DndContext
             sensors={sensors}
