@@ -2,7 +2,7 @@
   "name": "@daniely/blocks",
   "description": "Modular Blocks Editor",
   "author": "Daniel Yogel",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "main": "./dist/blocks.cjs.js",
   "module": "./dist/blocks.es.js",
@@ -10,7 +10,8 @@
     ".": {
       "import": "./dist/blocks.es.js",
       "require": "./dist/blocks.cjs.js"
-    }
+    },
+    "./dist/style.css": "./dist/style.css"
   },
   "typings": "dist/index.d.ts",
   "files": [
