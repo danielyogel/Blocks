@@ -1,11 +1,8 @@
 import type { Block } from '../blocks-container';
-import { RichText } from '../components/Editors';
-
-const parse = (text: string) => `<h3>${text}<h3/>`;
 
 export const AUTHORS: Block<{ email: string; first: string; last: string; middle: string[]; suffix: string }[]> = {
   Icon: () => <div>Authors</div>,
-  initialValue: [],
+  initialValue: [{ email: 'asd@asd.asd', first: 'firset', last: 'last', middle: [''], suffix: 'suffix' }],
   parse: () => [], // TODO
   stringify(authors) {
     return JSON.stringify(authors);

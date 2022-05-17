@@ -1,13 +1,12 @@
-import { Content, JSONContent } from '@tiptap/react';
 import React from 'react';
+import { Content, JSONContent } from '@tiptap/react';
 import type { Block } from '../blocks-container';
-import { RichText, RichTextJSON } from '../components/Editors';
-import { groupBy } from '../utils';
+import { RichTextJSON } from '../components/Editors';
 
 export const BODY: Block<JSONContent> = {
   Icon: () => <div>Body</div>,
-  initialValue: [],
-  parse: string => [{ cite_spans: [], section: string, text: string }],
+  initialValue: [{ cite_spans: [], section: '', text: '' }],
+  parse: s => [{ cite_spans: [], section: s, text: s }],
   stringify: body => {
     return JSON.stringify(body);
   },
