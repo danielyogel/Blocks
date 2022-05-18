@@ -2,7 +2,7 @@
   "name": "@daniely/blocks",
   "description": "Modular Blocks Editor",
   "author": "Daniel Yogel",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "main": "./dist/blocks.cjs.js",
   "module": "./dist/blocks.es.js",
@@ -18,8 +18,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "concurrently  --group  --raw \"vite\" \"tsc --noEmit --watch\" \"npm run ladle\" \"npm run test\"",
-    "build": "concurrently --raw \"vite build\" \"npm run build:types\"",
+    "dev": "concurrently --group --raw \"vite\" \"tsc --noEmit --watch\" \"npm run ladle\" \"npm run test\"",
+    "build": "vite build && npm run build:types",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
     "typecheck": "tsc --noEmit",
     "prepare": "npm run build",
