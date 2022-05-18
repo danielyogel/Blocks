@@ -5,7 +5,9 @@ import { Underline } from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
 import Image from '@tiptap/extension-image';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Placeholder from '@tiptap/extension-placeholder';
+import lowlight from 'lowlight';
 import Link from '@tiptap/extension-link';
 import Menu from './Menu';
 import { Exts } from './Exts';
@@ -32,7 +34,8 @@ export function RichTextEditor({ value, onChange, height, readOnly = false, plac
       Image,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Highlight,
-      Link.configure({ openOnClick: true, linkOnPaste: true })
+      Link.configure({ openOnClick: true, linkOnPaste: true }),
+      CodeBlockLowlight.configure({ lowlight })
     ],
     editorProps: { attributes: { class: 'focus:outline-none' } },
     onUpdate: v => onChange(v.editor.getHTML()),
@@ -62,7 +65,7 @@ export function RichTextEditor({ value, onChange, height, readOnly = false, plac
 
   return (
     <div className={classNames('w-full group', { 'pointer-events-none': readOnly })}>
-      <Menu editor={editor} uploader={uploader} allowedExtentions={allowedExtentions} />
+      {!!allowedExtentions.length && <Menu editor={editor} uploader={uploader} allowedExtentions={allowedExtentions} />}
 
       <div
         className={`${height} overflow-y-hidden cursor-pointer`}
