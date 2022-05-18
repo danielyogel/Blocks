@@ -1,11 +1,11 @@
 import React from 'react';
 import { InitEditor } from './index';
 import './index.css';
-import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE } from './blocks';
+import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE, EMBED_CODE } from './blocks';
 import classNames from 'classnames';
 
 const Editor = InitEditor({
-  blocks: { TITLE, AUTHORS, ABSTRACT, BODY, IMAGE }
+  blocks: { TITLE, AUTHORS, ABSTRACT, BODY, IMAGE, EMBED_CODE }
 });
 
 export const Demo = () => {
