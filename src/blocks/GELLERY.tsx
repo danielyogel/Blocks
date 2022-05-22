@@ -1,4 +1,4 @@
-import type { Block } from '../blocks-container';
+import { Block } from '../interfaces/Block';
 import { RichText } from '../components/Editors';
 
 export const GELLERY: Block<string> = {

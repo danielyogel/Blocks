@@ -4,7 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
-import { Block } from '..';
+import { Block } from '../../interfaces/Block';
 import { pipe } from '../../utils';
 
 type NodeValue = { id: string; kind: any; content: any };

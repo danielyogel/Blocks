@@ -5,16 +5,8 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
 import { nanoid } from 'nanoid';
-
-export type Block<V> = {
-  initialValue: V;
-  Icon: React.FC;
-  View: React.FC<{ content: V; onChange: (content: V) => void; viewMode: boolean }>;
-  stringify: (value: V) => string;
-  parse: (text: string) => V;
-};
-
-export type InferBlockValue<F> = F extends Block<infer V> ? V : never;
+import { Block } from '../interfaces/Block';
+import { InferBlockValue } from '../interfaces/InferBlockValue';
 
 type Params<K extends string, Blocks extends Record<K, Block<any>>> = {
   blocks: Blocks;
