@@ -59,7 +59,7 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate,
                         return {
                           text: currBlock.kind,
                           onClick: () => {
-                            const transformedValue = pipe(node.content, BlockWithKind.stringify, currBlock.parse);
+                            const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
                             onChange({ ...node, kind: currBlock.kind, content: transformedValue });
                           }
                         };

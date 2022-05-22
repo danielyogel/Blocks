@@ -5,8 +5,8 @@ import { BaseModal } from '../components';
 export const IMAGE: Block<string> = {
   Icon: () => <div>Image</div>,
   initialValue: '',
-  parse: s => s,
-  stringify: html => {
+  _fromString: s => s,
+  _toString: html => {
     var div = document.createElement('div');
     div.innerHTML = html;
     return div.innerText;

@@ -7,8 +7,8 @@ const parse = (text: string) => `<h1>${text}<h1/>`;
 export const TITLE: Block<string> = {
   Icon: () => <div>Title</div>,
   initialValue: '<h1>This is your title<h1/>',
-  parse: parse,
-  stringify: html => {
+  _fromString: parse,
+  _toString: html => {
     var div = document.createElement('div');
     div.innerHTML = html;
     return div.innerText;

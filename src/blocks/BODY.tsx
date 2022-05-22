@@ -6,8 +6,8 @@ import { RichTextJSON } from '../components/Editors';
 export const BODY: Block<JSONContent> = {
   Icon: () => <div>Body</div>,
   initialValue: [{ cite_spans: [], section: '', text: '' }],
-  parse: s => [{ cite_spans: [], section: s, text: s }],
-  stringify: body => {
+  _fromString: s => [{ cite_spans: [], section: s, text: s }],
+  _toString: body => {
     return JSON.stringify(body);
   },
   View: params => {

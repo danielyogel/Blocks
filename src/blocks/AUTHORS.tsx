@@ -3,8 +3,8 @@ import { Block } from '../interfaces/Block';
 export const AUTHORS: Block<{ email: string; first: string; last: string; middle: string[]; suffix: string }[]> = {
   Icon: () => <div>Authors</div>,
   initialValue: [{ email: 'asd@asd.asd', first: 'firset', last: 'last', middle: [''], suffix: 'suffix' }],
-  parse: () => [], // TODO
-  stringify(authors) {
+  _fromString: () => [], // TODO
+  _toString(authors) {
     return JSON.stringify(authors);
   },
   View: params => {

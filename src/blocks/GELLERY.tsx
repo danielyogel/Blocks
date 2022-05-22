@@ -4,8 +4,8 @@ import { RichText } from '../components/Editors';
 export const GELLERY: Block<string> = {
   Icon: () => <div>Gallery</div>,
   initialValue: '',
-  parse: s => s,
-  stringify: html => {
+  _fromString: s => s,
+  _toString: html => {
     var div = document.createElement('div');
     div.innerHTML = html;
     return div.innerText;

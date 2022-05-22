@@ -8,8 +8,8 @@ type HTML = string;
 export const ABSTRACT: Block<HTML> = {
   Icon: () => <div>Abstract</div>,
   initialValue: parse('This is your abstract'),
-  parse,
-  stringify(html) {
+  _fromString: parse,
+  _toString(html) {
     const div = document.createElement('div');
     div.innerHTML = html;
     return div.innerText;
