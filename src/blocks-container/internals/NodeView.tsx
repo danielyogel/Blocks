@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon } from '../../components';
+import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { Block } from '../../interfaces/Block';
@@ -50,23 +50,26 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate,
                 <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
                   <DragIcon />
                 </div>
-                <div className='w-5 relative overflow-visible text-gray-dark hover:text-gray-darkest transition-colors'>
-                  <DropdownMenu
-                    items={[
-                      { onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon },
-                      { onClick: onDuplicate, text: 'Duplicate', separator: true, Icon: DuplicateIcon },
-                      ...BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
-                        return {
-                          text: currBlock.kind,
-                          onClick: () => {
-                            const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
-                            onChange({ ...node, kind: currBlock.kind, content: transformedValue });
-                          }
-                        };
-                      })
-                    ]}
-                  />
-                </div>
+
+                <DropdownMenu
+                  items={[
+                    { onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon },
+                    { onClick: onDuplicate, text: 'Duplicate', separator: true, Icon: DuplicateIcon },
+                    ...BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
+                      return {
+                        text: currBlock.kind,
+                        onClick: () => {
+                          const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
+                          onChange({ ...node, kind: currBlock.kind, content: transformedValue });
+                        }
+                      };
+                    })
+                  ]}
+                >
+                  <div className='w-5 text-sm font-medium text-gray-dark hover:text-gray-darkest transition-colors'>
+                    <DotsVerticalIcon />
+                  </div>
+                </DropdownMenu>
               </div>
             </div>
           </div>
