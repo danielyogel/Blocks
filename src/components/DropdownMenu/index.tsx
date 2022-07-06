@@ -30,14 +30,13 @@ export function DropdownMenu({ items, children }: Params) {
   useOutside([ref], () => setIsOpen(false), [isOpen]);
 
   return (
-    <div className='relative inline-block overflow-visible' onClick={toggleOpen} onMouseLeave={onMouseLeave}>
+    <div className='relative inline-block overflow-visible' onClick={toggleOpen} onMouseLeave={onMouseLeave} ref={ref}>
       <>{children}</>
 
       <Transition show={Boolean(isOpen)} as={Fragment}>
         <div className='absolute inset-0 z-30 top-6'>
           {!!isOpen && (
             <div
-              ref={ref}
               className='py-1 w-32 bg-white relative z-30 mt-2 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
               onMouseEnter={onMouseEnteredDropdown}
             >
