@@ -2,7 +2,7 @@
   "name": "@daniely/blocks",
   "description": "Modular Blocks Editor",
   "author": "Daniel Yogel",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "main": "./dist/blocks.cjs.js",
   "module": "./dist/blocks.es.js",
