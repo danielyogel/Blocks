@@ -7,7 +7,7 @@ import classNames from 'classnames';
 type Item = {
   text: string;
   Icon?: React.FC;
-  separator?: true;
+  separator?: boolean;
   onClick: () => void;
 };
 

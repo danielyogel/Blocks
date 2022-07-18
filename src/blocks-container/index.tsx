@@ -15,7 +15,9 @@ type Params<K extends string, Blocks extends Record<K, Block<any>>> = {
 export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ blocks }: Params<K, B>) {
   type BlocksType = typeof blocks;
 
-  type NodeValue = { [key in keyof BlocksType]: { kind: key; content: InferBlockValue<BlocksType[key]>; id: string } }[keyof BlocksType];
+  type NodeValue = {
+    [key in keyof BlocksType]: { kind: key; content: InferBlockValue<BlocksType[key]>; id: string; disabled: boolean };
+  }[keyof BlocksType];
 
   type _Params = {
     value: Array<NodeValue>;

@@ -6,7 +6,7 @@ import { useOutside } from '../../utils/useOutside';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Block } from '../../interfaces/Block';
 
-type NodeValue = { id: string; kind: any; content: any };
+type NodeValue = { id: string; kind: any; content: any; disabled: boolean };
 
 type Params = {
   onSelect: (node: NodeValue) => void;
@@ -61,7 +61,7 @@ export function BlocksMenu({ blocks, onSelect, staticMode }: Params) {
                     key={b.kind}
                     className='inline-flex cursor-pointer bg-gray w-24 h-24 items-center justify-center mr-2 mb-2 last:mr-0 text-sm flex-wrap'
                     onClick={() => {
-                      const newValue = { kind: b.kind, id: nanoid(), content: b.initialValue };
+                      const newValue = { kind: b.kind, id: nanoid(), content: b.initialValue, disabled: false };
                       onSelect(newValue);
                       setIsOpen(!isOpen);
                     }}

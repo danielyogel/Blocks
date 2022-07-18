@@ -3,6 +3,7 @@ import { InitEditor } from './index';
 import './index.css';
 import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE, EMBED_CODE } from './blocks';
 import classNames from 'classnames';
+import { nanoid } from 'nanoid';
 
 const Editor = InitEditor({
   blocks: { TITLE, AUTHORS, ABSTRACT, BODY, IMAGE, EMBED_CODE }
@@ -11,7 +12,7 @@ const Editor = InitEditor({
 export const Demo = () => {
   type State = Parameters<typeof Editor>['0']['value'];
 
-  const [state, setState] = React.useState<State>([]);
+  const [state, setState] = React.useState<State>([{ id: nanoid(), content: TITLE._fromString('disabled title'), disabled: true, kind: 'TITLE' }]);
 
   const [isViewMode, setViewMode] = React.useState(false);
 

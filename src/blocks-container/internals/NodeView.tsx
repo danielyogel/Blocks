@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { Block } from '../../interfaces/Block';
 import { pipe } from '../../utils';
 
-type NodeValue = { id: string; kind: any; content: any };
+type NodeValue = { id: string; kind: any; content: any; disabled: boolean };
 
 type Params = {
   node: NodeValue;
@@ -53,17 +53,19 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate,
 
                 <DropdownMenu
                   items={[
-                    { onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon },
-                    { onClick: onDuplicate, text: 'Duplicate', separator: true, Icon: DuplicateIcon },
-                    ...BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
-                      return {
-                        text: currBlock.kind,
-                        onClick: () => {
-                          const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
-                          onChange({ ...node, kind: currBlock.kind, content: transformedValue });
-                        }
-                      };
-                    })
+                    ...(node.disabled ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
+                    { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
+                    ...(node.disabled
+                      ? []
+                      : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
+                          return {
+                            text: currBlock.kind,
+                            onClick: () => {
+                              const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
+                              onChange({ ...node, kind: currBlock.kind, content: transformedValue });
+                            }
+                          };
+                        }))
                   ]}
                 >
                   <div className='w-5 text-sm font-medium text-gray-dark hover:text-gray-darkest transition-colors'>
@@ -77,7 +79,11 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate,
             <div>
               <div>
                 <div>
-                  <BlockWithKind.View content={node.content} onChange={content => onChange({ ...node, content })} viewMode={viewMode} />
+                  <BlockWithKind.View
+                    content={node.content}
+                    onChange={content => onChange({ ...node, content })}
+                    viewMode={viewMode || node.disabled}
+                  />
                 </div>
               </div>
             </div>
