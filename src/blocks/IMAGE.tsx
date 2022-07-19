@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Block } from '../interfaces/Block';
 import { BaseModal } from '../components';
 
@@ -11,11 +12,11 @@ export const IMAGE: Block<string> = {
     div.innerHTML = html;
     return div.innerText;
   },
-  View: (params: { content: string; onChange: (content: string) => void }) => {
+  View: params => {
     const [isOpen, setIsOpen] = React.useState(false);
     return (
       <div>
-        <div onClick={() => setIsOpen(true)} className='w-9/12 max-w-6xl'>
+        <div onClick={() => setIsOpen(true)} className={classNames('w-9/12 max-w-6xl', { 'pointer-events-none': params.viewMode })}>
           {params.content.includes('video') ? (
             <video src={params.content} autoPlay muted loop playsInline></video>
           ) : (
