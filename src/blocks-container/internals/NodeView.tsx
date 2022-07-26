@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon } from '../../components';
+import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon, LockIcon } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { Block } from '../../interfaces/Block';
@@ -44,37 +44,48 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate,
     >
       <div>
         <div className={classNames('flex group items-start', { 'pointer-events-none': viewMode, 'cursor-auto': viewMode })}>
-          <div className={classNames('grow-0 shrink-0 w-20 group-hover:opacity-100 duration-500 mt-1', { 'opacity-0': !isDragging })}>
+          <div className={classNames('grow-0 shrink-0 w-20 mt-1')}>
             <div>
               <div className='pl-2 flex justify-end pr-9'>
-                <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
-                  <DragIcon />
-                </div>
-
-                <DropdownMenu
-                  items={[
-                    ...(node.disabled ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
-                    { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
-                    ...(node.disabled
-                      ? []
-                      : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
-                          return {
-                            text: currBlock.kind,
-                            onClick: () => {
-                              const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
-                              onChange({ ...node, kind: currBlock.kind, content: transformedValue });
-                            }
-                          };
-                        }))
-                  ]}
-                >
-                  <div className='w-5 text-sm font-medium text-gray-dark hover:text-gray-darkest transition-colors'>
-                    <DotsVerticalIcon />
+                <ShowOnGroupHover isDragging={isDragging}>
+                  <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
+                    <DragIcon />
                   </div>
-                </DropdownMenu>
+                </ShowOnGroupHover>
+
+                <ShowOnGroupHover isDragging={isDragging}>
+                  <DropdownMenu
+                    items={[
+                      ...(node.disabled ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
+                      { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
+                      ...(node.disabled
+                        ? []
+                        : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
+                            return {
+                              text: currBlock.kind,
+                              onClick: () => {
+                                const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
+                                onChange({ ...node, kind: currBlock.kind, content: transformedValue });
+                              }
+                            };
+                          }))
+                    ]}
+                  >
+                    <div className='w-5 text-sm font-medium text-gray-dark hover:text-gray-darkest transition-colors'>
+                      <DotsVerticalIcon />
+                    </div>
+                  </DropdownMenu>
+                </ShowOnGroupHover>
+
+                {node.disabled && (
+                  <div className='opacity-80 h-4 relative top-0.5 ml-1'>
+                    <LockIcon />
+                  </div>
+                )}
               </div>
             </div>
           </div>
+
           <div>
             <div>
               <div>
@@ -101,3 +112,8 @@ export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate,
     </div>
   );
 }
+
+// Internals...
+const ShowOnGroupHover = ({ children, isDragging }: { children: React.ReactNode; isDragging: boolean }) => (
+  <div className={classNames('group-hover:opacity-100 duration-500', { 'opacity-0': !isDragging })}>{children}</div>
+);

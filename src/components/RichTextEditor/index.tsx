@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEditor, EditorContent, PureEditorContent } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Underline } from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
@@ -38,6 +38,7 @@ export function RichTextEditor({ value, onChange, height, readOnly = false, plac
       CodeBlockLowlight.configure({ lowlight })
     ],
     editorProps: { attributes: { class: 'focus:outline-none' } },
+    editable: !readOnly,
     onUpdate: v => onChange(v.editor.getHTML()),
     content: `${value === null ? '' : value}`
   });
