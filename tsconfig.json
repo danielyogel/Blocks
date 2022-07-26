@@ -3,9 +3,9 @@
   "include": ["src", "types"],
   "compilerOptions": {
     "module": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["vite/client", "vitest/globals", "vitest/importMeta"],
-    "target": "es5",
+    "target": "ESNext",
     "importHelpers": true,
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -16,7 +16,7 @@
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "strict": true,
     "pretty": true
   }
