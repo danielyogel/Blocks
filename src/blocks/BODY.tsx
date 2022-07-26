@@ -1,6 +1,6 @@
 import React from 'react';
 import { Content, JSONContent } from '@tiptap/react';
-import { Block } from '../interfaces/Block';
+import { Block } from '../interfaces';
 import { RichTextJSON } from '../components/Editors';
 
 export const BODY: Block<JSONContent> = {

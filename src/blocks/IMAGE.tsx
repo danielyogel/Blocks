@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Block } from '../interfaces/Block';
+import { Block } from '../interfaces';
 import { BaseModal } from '../components';
 
 export const IMAGE: Block<string> = {

@@ -1,4 +1,4 @@
-import { Block } from '../interfaces/Block';
+import { Block } from '../interfaces';
 import { RichText } from '../components/Editors';
 
 const parse = (text: string) => `<pre><code class="language-javascript">${text}</code></pre>`;

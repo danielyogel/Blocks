@@ -7,3 +7,7 @@ export type Block<V> = {
   _toString: (value: V) => string;
   _fromString: (text: string) => V;
 };
+
+export type InferBlockValue<F> = F extends Block<infer V> ? V : never;
+
+export type NodeValueType<K = any, C = any> = { id: string; kind: K; content: C; disabled: boolean };

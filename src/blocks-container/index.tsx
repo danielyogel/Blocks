@@ -5,8 +5,7 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { NodeView } from './internals/NodeView';
 import { nanoid } from 'nanoid';
-import { Block } from '../interfaces/Block';
-import { InferBlockValue } from '../interfaces/InferBlockValue';
+import { Block, InferBlockValue, NodeValueType } from '../interfaces';
 
 type Params<K extends string, Blocks extends Record<K, Block<any>>> = {
   blocks: Blocks;
@@ -16,7 +15,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
   type BlocksType = typeof blocks;
 
   type NodeValue = {
-    [key in keyof BlocksType]: { kind: key; content: InferBlockValue<BlocksType[key]>; id: string; disabled: boolean };
+    [key in keyof BlocksType]: NodeValueType<key, InferBlockValue<BlocksType[key]>>;
   }[keyof BlocksType];
 
   type _Params = {

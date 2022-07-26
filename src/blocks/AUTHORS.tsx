@@ -1,4 +1,4 @@
-import { Block } from '../interfaces/Block';
+import { Block } from '../interfaces';
 
 export const AUTHORS: Block<{ email: string; first: string; last: string; middle: string[]; suffix: string }[]> = {
   Icon: () => <div>Authors</div>,

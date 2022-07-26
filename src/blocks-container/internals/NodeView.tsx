@@ -4,17 +4,15 @@ import { CSS } from '@dnd-kit/utilities';
 import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon, LockIcon } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
-import { Block } from '../../interfaces/Block';
+import { Block, InferBlockValue, NodeValueType } from '../../interfaces';
 import { pipe } from '../../utils';
 
-type NodeValue = { id: string; kind: any; content: any; disabled: boolean };
-
 type Params = {
-  node: NodeValue;
+  node: NodeValueType;
   onDelete: () => void;
   onDuplicate: () => void;
-  onChange: (node: NodeValue) => void;
-  onAdd: (node: NodeValue) => void;
+  onChange: (node: NodeValueType) => void;
+  onAdd: (node: NodeValueType) => void;
   blocks: Record<string, Block<any>>;
   viewMode: boolean;
 };

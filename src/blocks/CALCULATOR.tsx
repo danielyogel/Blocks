@@ -1,4 +1,4 @@
-import { Block } from '../interfaces/Block';
+import { Block } from '../interfaces';
 
 export const CALCULATOR: Block<number> = {
   Icon: () => <div>CALCULATOR</div>,

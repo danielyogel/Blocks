@@ -4,7 +4,7 @@ import { XIcon } from '../../components/icons';
 import classNames from 'classnames';
 import { useOutside } from '../../utils/useOutside';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Block } from '../../interfaces/Block';
+import { Block } from '../../interfaces';
 
 type NodeValue = { id: string; kind: any; content: any; disabled: boolean };
 
