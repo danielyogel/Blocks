@@ -7,16 +7,12 @@ import { NodeView } from './internals/NodeView';
 import { nanoid } from 'nanoid';
 import { Block, InferBlockValue, NodeValueType } from '../interfaces';
 
-type Params<K extends string, Blocks extends Record<K, Block<any>>> = {
-  blocks: Blocks;
-};
+type Params<K extends string, Blocks extends Record<K, Block<any>>> = { blocks: Blocks };
 
 export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ blocks }: Params<K, B>) {
-  type BlocksType = typeof blocks;
-
   type NodeValue = {
-    [key in keyof BlocksType]: NodeValueType<key, InferBlockValue<BlocksType[key]>>;
-  }[keyof BlocksType];
+    [key in keyof typeof blocks]: NodeValueType<key, InferBlockValue<typeof blocks[key]>>;
+  }[keyof typeof blocks];
 
   type _Params = {
     value: Array<NodeValue>;
