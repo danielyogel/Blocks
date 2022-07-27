@@ -4,7 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon, LockIcon } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
-import { Block, InferBlockValue, NodeValueType } from '../../interfaces';
+import { Block, NodeValueType } from '../../interfaces';
 import { pipe } from '../../utils';
 
 type Params = {
