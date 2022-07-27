@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { nanoid } from 'nanoid';
 
 const Editor = InitEditor({
-  blocks: { TITLE, AUTHORS, ABSTRACT, BODY: BODY_SIMPLE, IMAGE, EMBED_CODE }
+  blocks: { TITLE, ABSTRACT, BODY: BODY_SIMPLE, IMAGE, EMBED_CODE }
 });
 
 export const Demo = () => {
@@ -20,8 +20,22 @@ export const Demo = () => {
       kind: 'TITLE',
       links: [
         [
-          { kind: 'ABSTRACT', content: '', id: 'sad', disabled: false },
-          { kind: 'ABSTRACT', content: 'sd', id: 'sad', disabled: false }
+          { kind: 'BODY', content: 'first link', id: 'sadfdfd', disabled: false },
+          {
+            kind: 'IMAGE',
+            content: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Pinta_Island_Tortoise_Lonesome_George_2008.jpg',
+            id: 'sad',
+            disabled: false
+          }
+        ],
+        [
+          { kind: 'BODY', content: 'first link', id: 'sadfdfd', disabled: false },
+          {
+            kind: 'IMAGE',
+            content: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Pinta_Island_Tortoise_Lonesome_George_2008.jpg',
+            id: 'sad',
+            disabled: false
+          }
         ]
       ]
     },
@@ -32,8 +46,8 @@ export const Demo = () => {
       kind: 'BODY',
       links: [
         [
-          { kind: 'ABSTRACT', content: '', id: 'sad', disabled: false },
-          { kind: 'ABSTRACT', content: 'sd', id: 'sad', disabled: false }
+          { kind: 'ABSTRACT', content: '', id: 'dsdsdsds', disabled: false },
+          { kind: 'ABSTRACT', content: 'sd', id: 'zxfeddfdsd', disabled: false }
         ]
       ]
     }
@@ -50,7 +64,20 @@ export const Demo = () => {
       </div>
 
       <div>
-        <Editor value={state} onChange={setState} viewMode={isViewMode} />
+        <Editor
+          value={state}
+          onChange={setState}
+          viewMode={isViewMode}
+          renderLink={link => {
+            return (
+              <div className='w-20'>
+                {link.map(n => {
+                  return <div key={n.id}>{n.kind === 'IMAGE' ? <img src={n.content} alt='' /> : <span>{n.content}</span>}</div>;
+                })}
+              </div>
+            );
+          }}
+        />
       </div>
     </div>
   );

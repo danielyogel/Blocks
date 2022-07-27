@@ -21,9 +21,10 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     value: Array<NodeValueWithLinks>;
     onChange: React.Dispatch<React.SetStateAction<NodeValueWithLinks[]>>;
     viewMode: boolean;
+    renderLink: (link: NodeValue[]) => React.ReactNode;
   };
 
-  return function Editor({ value, onChange, viewMode }: _Params) {
+  return function Editor({ value, onChange, viewMode, renderLink }: _Params) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     return (
@@ -44,16 +45,28 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
             <SortableContext items={value.map(m => m)}>
               {value.map((currNode, index) => {
                 return (
-                  <NodeView
-                    key={currNode.id}
-                    node={currNode}
-                    onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
-                    onDuplicate={() => onChange(value => unsafeInsertAt(index + 1, { ...currNode, id: nanoid() }, value))}
-                    onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
-                    onAdd={node => onChange(value => unsafeInsertAt(index + 1, node, value))}
-                    blocks={blocks}
-                    viewMode={viewMode}
-                  />
+                  <div className='group relative flex' key={currNode.id}>
+                    <div className='grow shrink-0'>
+                      <NodeView
+                        node={currNode}
+                        onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
+                        onDuplicate={() => onChange(value => unsafeInsertAt(index + 1, { ...currNode, id: nanoid() }, value))}
+                        onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
+                        onAdd={node => onChange(value => unsafeInsertAt(index + 1, node, value))}
+                        blocks={blocks}
+                        viewMode={viewMode}
+                      />
+                    </div>
+                    <div className='opacity-0 group-hover:opacity-100 w-64 shrink-0 grow-0 ml-4 flex flex-wrap'>
+                      {currNode.links.map((link, i) => {
+                        return (
+                          <div key={i} className='m-1'>
+                            {renderLink(link)}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 );
               })}
             </SortableContext>
