@@ -61,7 +61,7 @@ export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChang
                     items={[
                       ...(node.disabled ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
                       { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
-                      ...(node.disabled ? [] : [{ onClick: _onLink, text: 'Link', separator: !node.disabled, Icon: LinkIcon }]),
+                      ...(node.disabled ? [] : [{ onClick: _onLink, text: 'Value Link', separator: !node.disabled, Icon: LinkIcon }]),
                       ...(node.disabled
                         ? []
                         : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
