@@ -59,7 +59,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                         viewMode={viewMode}
                       />
                     </div>
-                    <div className='opacity-0 group-hover:opacity-100 w-64 shrink-0 grow-0 ml-4 flex flex-wrap'>
+                    <div className='opacity-0 group-hover:opacity-100 shrink-0 grow-0 ml-4 flex flex-wrap' style={{ width: '600px' }}>
                       {currNode.links.map((link, i) => {
                         return (
                           <div key={i} className='m-1'>
