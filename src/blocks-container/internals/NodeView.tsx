@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon, LockIcon } from '../../components';
+import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon, LockIcon, LinkIcon } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { Block, NodeValueType } from '../../interfaces';
@@ -11,18 +11,23 @@ type Params<N extends NodeValueType> = {
   node: N;
   onDelete: () => void;
   onDuplicate: () => void;
+  onLink: (id: string) => Promise<void>;
   onChange: (node: N) => void;
   onAdd: (node: N) => void;
   blocks: Record<string, Block<any>>;
   viewMode: boolean;
 };
 
-export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChange, onDelete, onDuplicate, viewMode }: Params<N>) {
+export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChange, onDelete, onDuplicate, onLink, viewMode }: Params<N>) {
   const BLOCKS_WITH_KIND = Object.entries(blocks).map(([kind, node]) => ({ ...node, kind }));
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
 
   const BlockWithKind = React.useMemo(() => BLOCKS_WITH_KIND.find(b => b.kind === node.kind), [node.kind]);
+
+  const _onLink = React.useCallback(() => {
+    onLink(node.id);
+  }, [onLink]);
 
   if (!BlockWithKind) {
     return null;
@@ -56,6 +61,7 @@ export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChang
                     items={[
                       ...(node.disabled ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
                       { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
+                      ...(node.disabled ? [] : [{ onClick: _onLink, text: 'Link', separator: !node.disabled, Icon: LinkIcon }]),
                       ...(node.disabled
                         ? []
                         : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {

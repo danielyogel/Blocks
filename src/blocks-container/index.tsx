@@ -22,9 +22,10 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     onChange: React.Dispatch<React.SetStateAction<NodeValueWithLinks[]>>;
     viewMode: boolean;
     renderLink: (link: NodeValue[]) => React.ReactNode;
+    linkRequest: (blockId: string) => Promise<void>;
   };
 
-  return function Editor({ value, onChange, viewMode, renderLink }: _Params) {
+  return function Editor({ value, onChange, viewMode, renderLink, linkRequest }: _Params) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     return (
@@ -54,6 +55,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                         onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
                         onAdd={node => onChange(value => unsafeInsertAt(index + 1, node, value))}
                         blocks={blocks}
+                        onLink={linkRequest}
                         viewMode={viewMode}
                       />
                     </div>

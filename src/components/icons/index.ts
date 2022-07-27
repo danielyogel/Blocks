@@ -7,3 +7,4 @@ export * from './DuplicateIcon';
 export * from './DotsVerticalIcon';
 export * from './SwitchIcon';
 export * from './LockIcon';
+export * from './LinkIcon';

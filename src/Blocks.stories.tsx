@@ -9,8 +9,30 @@ const Editor = InitEditor({
   blocks: { TITLE, ABSTRACT, BODY: BODY_SIMPLE, IMAGE, EMBED_CODE }
 });
 
+const BLOCKS_TO_LINK = [
+  [
+    { kind: 'BODY' as const, content: 'new link 1', id: 'adsf34', disabled: false },
+    {
+      kind: 'IMAGE' as const,
+      content: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Pinta_Island_Tortoise_Lonesome_George_2008.jpg',
+      id: 'fdfdf3',
+      disabled: false
+    }
+  ],
+  [
+    { kind: 'BODY' as const, content: 'new link 2', id: 'gffgas', disabled: false },
+    {
+      kind: 'IMAGE' as const,
+      content: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Pinta_Island_Tortoise_Lonesome_George_2008.jpg',
+      id: 'asdasd23',
+      disabled: false
+    }
+  ]
+];
+
 export const Demo = () => {
   type State = Parameters<typeof Editor>['0']['value'];
+  const [selectBlock, setSelectedBlock] = React.useState<null | string>(null);
 
   const [state, setState] = React.useState<State>([
     {
@@ -63,11 +85,32 @@ export const Demo = () => {
         </button>
       </div>
 
+      {selectBlock && (
+        <div className='bg-gray flex flex-wrap' onClick={() => setSelectedBlock(null)}>
+          {BLOCKS_TO_LINK.map(l => {
+            return (
+              <div
+                className='m-1 border cursor-pointer'
+                onClick={() => {
+                  setState(s => s.map(n => (n.id === selectBlock ? { ...n, links: [l] } : n)));
+                  setSelectedBlock(null);
+                }}
+              >
+                {l[0].content}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       <div>
         <Editor
           value={state}
           onChange={setState}
           viewMode={isViewMode}
+          linkRequest={async id => {
+            setSelectedBlock(id);
+          }}
           renderLink={link => {
             return (
               <div className='w-20'>
