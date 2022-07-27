@@ -1,4 +1,5 @@
 import React from 'react';
+import { Except, Simplify } from 'type-fest';
 import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../utils';
 import { BlocksMenu } from './internals/BlocksMenu';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
@@ -14,9 +15,11 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     [key in keyof typeof blocks]: NodeValueType<key, InferBlockValue<typeof blocks[key]>>;
   }[keyof typeof blocks];
 
+  type NodeValueWithLinks = Except<NodeValue, 'links'> & { links: Array<Except<NodeValue, 'links'>[]> };
+
   type _Params = {
-    value: Array<NodeValue>;
-    onChange: React.Dispatch<React.SetStateAction<NodeValue[]>>;
+    value: Array<NodeValueWithLinks>;
+    onChange: React.Dispatch<React.SetStateAction<NodeValueWithLinks[]>>;
     viewMode: boolean;
   };
 

@@ -10,4 +10,4 @@ export type Block<V> = {
 
 export type InferBlockValue<F> = F extends Block<infer V> ? V : never;
 
-export type NodeValueType<K = any, C = any> = { id: string; kind: K; content: C; disabled: boolean };
+export type NodeValueType<K = any, C = any, N = any> = { id: string; kind: K; content: C; disabled: boolean; links: Array<N[]> };

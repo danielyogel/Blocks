@@ -34,3 +34,5 @@ export function fileToBase64(file: File): Promise<string> {
     reader.onerror = error => reject(error);
   });
 }
+
+export const ObjectEnteries = <K extends string, V extends any>(r: Record<K, V>) => Object.entries(r) as [K, V][];

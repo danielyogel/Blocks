@@ -7,17 +7,17 @@ import classNames from 'classnames';
 import { Block, NodeValueType } from '../../interfaces';
 import { pipe } from '../../utils';
 
-type Params = {
-  node: NodeValueType;
+type Params<N extends NodeValueType> = {
+  node: N;
   onDelete: () => void;
   onDuplicate: () => void;
-  onChange: (node: NodeValueType) => void;
-  onAdd: (node: NodeValueType) => void;
+  onChange: (node: N) => void;
+  onAdd: (node: N) => void;
   blocks: Record<string, Block<any>>;
   viewMode: boolean;
 };
 
-export function NodeView({ blocks, node, onAdd, onChange, onDelete, onDuplicate, viewMode }: Params) {
+export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChange, onDelete, onDuplicate, viewMode }: Params<N>) {
   const BLOCKS_WITH_KIND = Object.entries(blocks).map(([kind, node]) => ({ ...node, kind }));
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });

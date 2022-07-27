@@ -4,18 +4,17 @@ import { XIcon } from '../../components/icons';
 import classNames from 'classnames';
 import { useOutside } from '../../utils/useOutside';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Block } from '../../interfaces';
+import { Block, NodeValueType } from '../../interfaces';
+import { map, ObjectEnteries, pipe } from '../../utils';
 
-type NodeValue = { id: string; kind: any; content: any; disabled: boolean };
-
-type Params = {
-  onSelect: (node: NodeValue) => void;
+type Params<K extends string, N extends NodeValueType<K>> = {
+  onSelect: (node: N) => void;
   staticMode: boolean;
-  blocks: Record<string, Block<any>>;
+  blocks: Record<K, Block<N>>;
 };
 
-export function BlocksMenu({ blocks, onSelect, staticMode }: Params) {
-  const BLOCKS_WITH_KIND = Object.entries(blocks).map(([kind, node]) => ({ ...node, kind }));
+export function BlocksMenu<K extends string, N extends NodeValueType>({ blocks, onSelect, staticMode }: Params<K, N>) {
+  const BLOCKS_WITH_KIND = ObjectEnteries(blocks).map(([kind, node]) => ({ ...node, kind }));
 
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -55,21 +54,24 @@ export function BlocksMenu({ blocks, onSelect, staticMode }: Params) {
               exit={{ height: 0, opacity: 0 }}
               transition={{ ease: 'easeInOut' }}
             >
-              {BLOCKS_WITH_KIND.map(b => {
-                return (
-                  <div
-                    key={b.kind}
-                    className='inline-flex cursor-pointer bg-gray w-24 h-24 items-center justify-center mr-2 mb-2 last:mr-0 text-sm flex-wrap'
-                    onClick={() => {
-                      const newValue = { kind: b.kind, id: nanoid(), content: b.initialValue, disabled: false };
-                      onSelect(newValue);
-                      setIsOpen(!isOpen);
-                    }}
-                  >
-                    <b.Icon />
-                  </div>
-                );
-              })}
+              {pipe(
+                BLOCKS_WITH_KIND,
+                map(b => {
+                  return (
+                    <div
+                      key={b.kind}
+                      className='inline-flex cursor-pointer bg-gray w-24 h-24 items-center justify-center mr-2 mb-2 last:mr-0 text-sm flex-wrap'
+                      onClick={() => {
+                        const newValue: NodeValueType = { kind: b.kind, id: nanoid(), content: b.initialValue, disabled: false, links: [] };
+                        onSelect(newValue as any);
+                        setIsOpen(!isOpen);
+                      }}
+                    >
+                      <b.Icon />
+                    </div>
+                  );
+                })
+              )}
             </motion.div>
           )}
         </AnimatePresence>

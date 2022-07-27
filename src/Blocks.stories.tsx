@@ -1,18 +1,43 @@
 import React from 'react';
 import { InitEditor } from './index';
 import './index.css';
-import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE, EMBED_CODE } from './blocks';
+import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE, EMBED_CODE, BODY_SIMPLE } from './blocks';
 import classNames from 'classnames';
 import { nanoid } from 'nanoid';
 
 const Editor = InitEditor({
-  blocks: { TITLE, AUTHORS, ABSTRACT, BODY, IMAGE, EMBED_CODE }
+  blocks: { TITLE, AUTHORS, ABSTRACT, BODY: BODY_SIMPLE, IMAGE, EMBED_CODE }
 });
 
 export const Demo = () => {
   type State = Parameters<typeof Editor>['0']['value'];
 
-  const [state, setState] = React.useState<State>([{ id: nanoid(), content: TITLE._fromString('disabled title'), disabled: true, kind: 'TITLE' }]);
+  const [state, setState] = React.useState<State>([
+    {
+      id: nanoid(),
+      content: TITLE._fromString('disabled title'),
+      disabled: true,
+      kind: 'TITLE',
+      links: [
+        [
+          { kind: 'ABSTRACT', content: '', id: 'sad', disabled: false },
+          { kind: 'ABSTRACT', content: 'sd', id: 'sad', disabled: false }
+        ]
+      ]
+    },
+    {
+      id: nanoid(),
+      content: BODY_SIMPLE._fromString('body'),
+      disabled: false,
+      kind: 'BODY',
+      links: [
+        [
+          { kind: 'ABSTRACT', content: '', id: 'sad', disabled: false },
+          { kind: 'ABSTRACT', content: 'sd', id: 'sad', disabled: false }
+        ]
+      ]
+    }
+  ]);
 
   const [isViewMode, setViewMode] = React.useState(false);
 
