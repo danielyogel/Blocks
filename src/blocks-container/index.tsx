@@ -59,13 +59,9 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                         viewMode={viewMode}
                       />
                     </div>
-                    <div className='opacity-0 group-hover:opacity-100 shrink-0 grow-0 ml-4 flex flex-wrap' style={{ width: '600px' }}>
+                    <div className='opacity-0 group-hover:opacity-100 shrink-0 grow-0 ml-10 grid grid-cols-2 gap-3' style={{ width: '400px' }}>
                       {currNode.links.map((link, i) => {
-                        return (
-                          <div key={i} className='m-1'>
-                            {renderLink(link)}
-                          </div>
-                        );
+                        return <div key={i}>{renderLink(link)}</div>;
                       })}
                     </div>
                   </div>

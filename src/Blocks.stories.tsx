@@ -113,7 +113,7 @@ export const Demo = () => {
           }}
           renderLink={link => {
             return (
-              <div className='w-20'>
+              <div className='w-full'>
                 {link.map(n => {
                   return <div key={n.id}>{n.kind === 'IMAGE' ? <img src={n.content} alt='' /> : <span>{n.content}</span>}</div>;
                 })}
