@@ -8,3 +8,4 @@ export * from './DotsVerticalIcon';
 export * from './SwitchIcon';
 export * from './LockIcon';
 export * from './LinkIcon';
+export * from './LinkedIcon';

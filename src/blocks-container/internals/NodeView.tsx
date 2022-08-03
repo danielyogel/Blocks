@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon, LockIcon, LinkIcon } from '../../components';
+import { DragIcon, DropdownMenu, TrashIcon, DuplicateIcon, DotsVerticalIcon, LockIcon, LinkIcon, LinkedIcon } from '../../components';
 import { BlocksMenu } from './BlocksMenu';
 import classNames from 'classnames';
 import { Block, NodeValueType } from '../../interfaces';
@@ -47,47 +47,49 @@ export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChang
     >
       <div>
         <div className={classNames('flex group items-start', { 'pointer-events-none': viewMode, 'cursor-auto': viewMode })}>
-          <div className={classNames('grow-0 shrink-0 w-20 mt-1')}>
-            <div>
-              <div className='pl-2 flex justify-end pr-9'>
-                <ShowOnGroupHover isDragging={isDragging}>
-                  <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
-                    <DragIcon />
-                  </div>
-                </ShowOnGroupHover>
-
-                <ShowOnGroupHover isDragging={isDragging}>
-                  <DropdownMenu
-                    items={[
-                      ...(node.disabled ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
-                      { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
-                      ...(node.disabled ? [] : [{ onClick: _onLink, text: 'Value Link', separator: !node.disabled, Icon: LinkIcon }]),
-                      ...(node.disabled
-                        ? []
-                        : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
-                            return {
-                              text: currBlock.kind,
-                              onClick: () => {
-                                const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
-                                onChange({ ...node, kind: currBlock.kind, content: transformedValue });
-                              }
-                            };
-                          }))
-                    ]}
-                  >
-                    <div className='w-5 text-sm font-medium text-gray-dark hover:text-gray-darkest transition-colors'>
-                      <DotsVerticalIcon />
-                    </div>
-                  </DropdownMenu>
-                </ShowOnGroupHover>
-
-                {node.disabled && (
-                  <div className='opacity-80 h-4 relative top-0.5 ml-1'>
-                    <LockIcon />
-                  </div>
-                )}
+          <div className='grow-0 shrink-0 w-auto mt-1 pl-2 pr-9 flex justify-end'>
+            <ShowOnGroupHover isDragging={isDragging}>
+              <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
+                <DragIcon />
               </div>
-            </div>
+            </ShowOnGroupHover>
+
+            <ShowOnGroupHover isDragging={isDragging}>
+              <DropdownMenu
+                items={[
+                  ...(node.disabled ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
+                  { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
+                  ...(node.disabled ? [] : [{ onClick: _onLink, text: 'Value Link', separator: !node.disabled, Icon: LinkIcon }]),
+                  ...(node.disabled
+                    ? []
+                    : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
+                        return {
+                          text: currBlock.kind,
+                          onClick: () => {
+                            const transformedValue = pipe(node.content, BlockWithKind._toString, currBlock._fromString);
+                            onChange({ ...node, kind: currBlock.kind, content: transformedValue });
+                          }
+                        };
+                      }))
+                ]}
+              >
+                <div className='w-5 text-sm font-medium text-gray-dark hover:text-gray-darkest transition-colors'>
+                  <DotsVerticalIcon />
+                </div>
+              </DropdownMenu>
+            </ShowOnGroupHover>
+
+            {!node.links?.length ? null : (
+              <div className='opacity-80 h-4 relative top-0.5 ml-1'>
+                <LinkedIcon />
+              </div>
+            )}
+
+            {node.disabled && (
+              <div className='opacity-80 h-4 relative top-0.5 ml-1'>
+                <LockIcon />
+              </div>
+            )}
           </div>
 
           <div>
