@@ -16,7 +16,7 @@ export const BODY: Block<JSONContent> = {
         <div className='font-bold text-xs mb-1' style={{ fontSize: '10px' }}>
           Paragraph
         </div>
-        <div>{RichTextJSON(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])(params)}</div>
+        <div>{RichTextJSON(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'], 'Body...')(params)}</div>
       </div>
     );
   }

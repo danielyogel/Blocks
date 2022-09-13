@@ -7,7 +7,7 @@ type HTML = string;
 
 export const BODY_SIMPLE: Block<HTML> = {
   Icon: () => <div>Body</div>,
-  initialValue: parse('This is your body'),
+  initialValue: parse(''),
   _fromString: parse,
   _toString(html) {
     const div = document.createElement('div');
@@ -20,7 +20,7 @@ export const BODY_SIMPLE: Block<HTML> = {
         <div className='font-bold text-xs mb-1' style={{ fontSize: '10px' }}>
           Body
         </div>
-        <div>{RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])(params)}</div>
+        <div>{RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'], 'Body...')(params)}</div>
       </div>
     );
   }

@@ -1,14 +1,14 @@
 import { Block } from '../interfaces';
 import { RichText } from '../components/Editors';
 
-const parse = (text: string) => `<h3>${text}<h3/>`;
+const _parse = (text: string) => `<h3>${text}<h3/>`;
 
 type HTML = string;
 
 export const ABSTRACT: Block<HTML> = {
   Icon: () => <div>Abstract</div>,
-  initialValue: parse('This is your abstract'),
-  _fromString: parse,
+  initialValue: _parse(''),
+  _fromString: _parse,
   _toString(html) {
     const div = document.createElement('div');
     div.innerHTML = html;
@@ -20,7 +20,7 @@ export const ABSTRACT: Block<HTML> = {
         <div className='font-bold text-xs mb-1' style={{ fontSize: '10px' }}>
           Abstract
         </div>
-        <div>{RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'])(params)}</div>
+        <div>{RichText(['Bold', 'Italic', 'Strike', 'Underline', 'redo', 'undo', 'Highlight'], 'Abstract...')(params)}</div>
       </div>
     );
   }
