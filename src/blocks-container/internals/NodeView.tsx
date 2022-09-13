@@ -16,9 +16,20 @@ type Params<N extends NodeValueType> = {
   onAdd: (node: N) => void;
   blocks: Record<string, Block<any>>;
   viewMode: boolean;
+  singularMode: boolean;
 };
 
-export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChange, onDelete, onDuplicate, onLink, viewMode }: Params<N>) {
+export function NodeView<N extends NodeValueType>({
+  blocks,
+  node,
+  onAdd,
+  onChange,
+  onDelete,
+  onDuplicate,
+  onLink,
+  viewMode,
+  singularMode
+}: Params<N>) {
   const BLOCKS_WITH_KIND = Object.entries(blocks).map(([kind, node]) => ({ ...node, kind }));
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: node.id, disabled: false });
@@ -48,19 +59,21 @@ export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChang
       <div>
         <div className={classNames('flex group items-start', { 'pointer-events-none': viewMode, 'cursor-auto': viewMode })}>
           <div className='grow-0 shrink-0 w-auto mt-1 pl-2 pr-9 flex justify-end'>
-            <ShowOnGroupHover isDragging={isDragging}>
-              <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
-                <DragIcon />
-              </div>
-            </ShowOnGroupHover>
+            {!singularMode && (
+              <ShowOnGroupHover isDragging={isDragging}>
+                <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
+                  <DragIcon />
+                </div>
+              </ShowOnGroupHover>
+            )}
 
             <ShowOnGroupHover isDragging={isDragging}>
               <DropdownMenu
                 items={[
-                  ...(node.disabled ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
+                  ...(node.disabled || singularMode ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
                   { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
-                  ...(node.disabled ? [] : [{ onClick: _onLink, text: 'Value Link', separator: !node.disabled, Icon: LinkIcon }]),
-                  ...(node.disabled
+                  ...(node.disabled ? [] : [{ onClick: _onLink, text: 'Value Link', separator: !node.disabled && !singularMode, Icon: LinkIcon }]),
+                  ...(node.disabled || singularMode
                     ? []
                     : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
                         return {
@@ -108,7 +121,7 @@ export function NodeView<N extends NodeValueType>({ blocks, node, onAdd, onChang
         </div>
       </div>
 
-      {viewMode ? (
+      {viewMode || singularMode ? (
         <div className='h-10'></div>
       ) : (
         <div>

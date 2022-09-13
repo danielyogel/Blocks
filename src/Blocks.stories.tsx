@@ -108,6 +108,7 @@ export const Demo = () => {
           value={state}
           onChange={setState}
           viewMode={isViewMode}
+          singularMode={false}
           linkRequest={async id => {
             setSelectedBlock(id);
           }}

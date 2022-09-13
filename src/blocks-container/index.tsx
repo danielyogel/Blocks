@@ -21,11 +21,12 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     value: Array<NodeValueWithLinks>;
     onChange: React.Dispatch<React.SetStateAction<NodeValueWithLinks[]>>;
     viewMode: boolean;
+    singularMode: boolean;
     renderLink: (link: NodeValue[]) => React.ReactNode;
     linkRequest: (blockId: string) => Promise<void>;
   };
 
-  return function Editor({ value, onChange, viewMode, renderLink, linkRequest }: _Params) {
+  return function Editor({ value, onChange, viewMode, singularMode, renderLink, linkRequest }: _Params) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     return (
@@ -57,6 +58,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                         blocks={blocks}
                         onLink={linkRequest}
                         viewMode={viewMode}
+                        singularMode={singularMode}
                       />
                     </div>
                     <div className='opacity-0 group-hover:opacity-100 shrink-0 grow-0 ml-10 grid grid-cols-2 gap-3' style={{ width: '400px' }}>
@@ -71,7 +73,11 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
           </DndContext>
         </div>
 
-        <div>{!value.length && <BlocksMenu blocks={blocks} onSelect={node => onChange(value => [...value, node])} staticMode />}</div>
+        {!singularMode && !value.length && (
+          <div>
+            <BlocksMenu blocks={blocks} onSelect={node => onChange(value => [...value, node])} staticMode />
+          </div>
+        )}
       </div>
     );
   };
