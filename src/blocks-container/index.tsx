@@ -23,11 +23,23 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     viewMode: boolean;
     singularMode: boolean;
     renderLink: (link: NodeValue[]) => React.ReactNode;
+    newBlockRequest: (kind: NodeValueWithLinks['kind'], next: (n?: NodeValueWithLinks) => void) => void;
     linkRequest: (blockId: string) => Promise<void>;
   };
 
-  return function Editor({ value, onChange, viewMode, singularMode, renderLink, linkRequest }: _Params) {
+  return function Editor({ value, onChange, viewMode, singularMode, renderLink, linkRequest, newBlockRequest }: _Params) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+
+    const onAdd = React.useCallback(
+      (node: NodeValueWithLinks, index?: number) => {
+        newBlockRequest(node.kind, selectedNode => {
+          const indexToUse = index === undefined ? value.length : index + 1;
+          const nodeToAdd = selectedNode || node;
+          onChange(value => unsafeInsertAt(indexToUse, nodeToAdd, value));
+        });
+      },
+      [value, onChange]
+    );
 
     return (
       <div>
@@ -54,7 +66,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                         onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
                         onDuplicate={() => onChange(value => unsafeInsertAt(index + 1, { ...currNode, id: nanoid() }, value))}
                         onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
-                        onAdd={node => onChange(value => unsafeInsertAt(index + 1, node, value))}
+                        onAdd={n => onAdd(n, index)}
                         blocks={blocks}
                         onLink={linkRequest}
                         viewMode={viewMode}
@@ -75,7 +87,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
 
         {!singularMode && !value.length && (
           <div>
-            <BlocksMenu blocks={blocks} onSelect={node => onChange(value => [...value, node])} staticMode />
+            <BlocksMenu blocks={blocks} staticMode onSelect={onAdd} />
           </div>
         )}
       </div>
