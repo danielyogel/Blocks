@@ -78,7 +78,7 @@ export const Demo = () => {
   const [isViewMode, setViewMode] = React.useState(false);
 
   return (
-    <div className='p-4 max-w-4xl mx-auto'>
+    <div className='p-4 max-w-7xl mx-auto'>
       <div className='mb-5'>
         <button onClick={() => setViewMode(!isViewMode)} className={classNames('p-4 rounded', { 'bg-danger': isViewMode })}>
           View Only

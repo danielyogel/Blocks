@@ -60,6 +60,12 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
               {value.map((currNode, index) => {
                 return (
                   <div className='group relative flex' key={currNode.id}>
+                    <div className='opacity-0 group-hover:opacity-100 shrink-0 grow-0 ml-10 grid grid-cols-2 gap-3 mr-2' style={{ width: '400px' }}>
+                      {currNode.links.map((link, i) => {
+                        return <div key={i}>{renderLink(link)}</div>;
+                      })}
+                    </div>
+
                     <div className='grow shrink-0'>
                       <NodeView
                         node={currNode}
@@ -72,11 +78,6 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                         viewMode={viewMode}
                         singularMode={singularMode}
                       />
-                    </div>
-                    <div className='opacity-0 group-hover:opacity-100 shrink-0 grow-0 ml-10 grid grid-cols-2 gap-3' style={{ width: '400px' }}>
-                      {currNode.links.map((link, i) => {
-                        return <div key={i}>{renderLink(link)}</div>;
-                      })}
                     </div>
                   </div>
                 );
