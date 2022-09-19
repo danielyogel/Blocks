@@ -1,11 +1,14 @@
-import React from 'react';
-import { Except, Simplify } from 'type-fest';
-import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../utils';
-import { BlocksMenu } from './internals/BlocksMenu';
+import React, { CSSProperties } from 'react';
+import { nanoid } from 'nanoid';
+import { createPortal } from 'react-dom';
+import { Except } from 'type-fest';
+import { useDebounce, useToggle } from 'ahooks';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { AnimatePresence, motion } from 'framer-motion';
+import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../utils';
+import { BlocksMenu } from './internals/BlocksMenu';
 import { NodeView } from './internals/NodeView';
-import { nanoid } from 'nanoid';
 import { Block, InferBlockValue, NodeValueType } from '../interfaces';
 
 type Params<K extends string, Blocks extends Record<K, Block<any>>> = { blocks: Blocks };
@@ -25,9 +28,10 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     renderLink: (link: NodeValue[]) => React.ReactNode;
     newBlockRequest: (kind: NodeValueWithLinks['kind'], next: (n?: NodeValueWithLinks) => void) => void;
     linkRequest: (blockId: string) => Promise<void>;
+    linksCSS: CSSProperties;
   };
 
-  return function Editor({ value, onChange, viewMode, singularMode, renderLink, linkRequest, newBlockRequest }: _Params) {
+  return function Editor({ value, onChange, viewMode, singularMode, renderLink, linkRequest, newBlockRequest, linksCSS }: _Params) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     const onAdd = React.useCallback(
@@ -58,27 +62,37 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
           >
             <SortableContext items={value.map(m => m)}>
               {value.map((currNode, index) => {
-                return (
-                  <div className='group relative flex' key={currNode.id}>
-                    <div className='opacity-0 group-hover:opacity-100 shrink-0 grow-0 ml-10 grid grid-cols-2 gap-3 mr-2' style={{ width: '400px' }}>
-                      {currNode.links.map((link, i) => {
-                        return <div key={i}>{renderLink(link)}</div>;
-                      })}
-                    </div>
+                const [isFocused, { setLeft, setRight }] = useToggle(false);
+                const isFocusedDebounced = useDebounce(isFocused, { wait: 400 });
 
-                    <div className='grow shrink-0'>
-                      <NodeView
-                        node={currNode}
-                        onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
-                        onDuplicate={() => onChange(value => unsafeInsertAt(index + 1, { ...currNode, id: nanoid() }, value))}
-                        onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
-                        onAdd={n => onAdd(n, index)}
-                        blocks={blocks}
-                        onLink={linkRequest}
-                        viewMode={viewMode}
-                        singularMode={singularMode}
-                      />
-                    </div>
+                return (
+                  <div key={currNode.id} onMouseEnter={setRight} onMouseLeave={setLeft}>
+                    <NodeView
+                      node={currNode}
+                      onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
+                      onDuplicate={() => onChange(value => unsafeInsertAt(index + 1, { ...currNode, id: nanoid() }, value))}
+                      onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
+                      onAdd={n => onAdd(n, index)}
+                      blocks={blocks}
+                      onLink={linkRequest}
+                      viewMode={viewMode}
+                      singularMode={singularMode}
+                    />
+
+                    {createPortal(
+                      <AnimatePresence>
+                        {isFocusedDebounced && (
+                          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+                            <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-3 fixed' style={{ ...linksCSS }}>
+                              {currNode.links.map((link, i) => {
+                                return <div key={i}>{renderLink(link)}</div>;
+                              })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>,
+                      document.body
+                    )}
                   </div>
                 );
               })}

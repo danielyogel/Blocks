@@ -51,7 +51,7 @@ export const Demo = () => {
           }
         ],
         [
-          { kind: 'BODY', content: 'first link', id: 'sadfdfd', disabled: false },
+          { kind: 'BODY', content: 'Second link', id: 'sadfdfd', disabled: false },
           {
             kind: 'IMAGE',
             content: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Pinta_Island_Tortoise_Lonesome_George_2008.jpg',
@@ -78,7 +78,7 @@ export const Demo = () => {
   const [isViewMode, setViewMode] = React.useState(false);
 
   return (
-    <div className='p-4 max-w-7xl mx-auto'>
+    <div className='p-4 max-w-2xl mx-auto'>
       <div className='mb-5'>
         <button onClick={() => setViewMode(!isViewMode)} className={classNames('p-4 rounded', { 'bg-danger': isViewMode })}>
           View Only
@@ -109,6 +109,7 @@ export const Demo = () => {
           onChange={setState}
           viewMode={isViewMode}
           singularMode={false}
+          linksCSS={{ right: '20px', top: '20px', width: '300px' }}
           linkRequest={async id => {
             setSelectedBlock(id);
           }}
@@ -124,9 +125,13 @@ export const Demo = () => {
           }}
           renderLink={link => {
             return (
-              <div className='w-full'>
+              <div className='w-full relative'>
                 {link.map(n => {
-                  return <div key={n.id}>{n.kind === 'IMAGE' ? <img src={n.content} alt='' /> : <span>{n.content}</span>}</div>;
+                  return (
+                    <div key={n.id}>
+                      {n.kind === 'IMAGE' ? <img src={n.content} alt='' /> : <span className='absolute top-10 left-10 text-white'>{n.content}</span>}
+                    </div>
+                  );
                 })}
               </div>
             );
