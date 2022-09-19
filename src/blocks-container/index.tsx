@@ -25,13 +25,12 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     onChange: React.Dispatch<React.SetStateAction<NodeValueWithLinks[]>>;
     viewMode: boolean;
     singularMode: boolean;
-    renderLink: (link: NodeValue[]) => React.ReactNode;
-    newBlockRequest: (kind: NodeValueWithLinks['kind'], next: (n?: NodeValueWithLinks) => void) => void;
+    onBlockFocus: (quest: NodeValueWithLinks | null) => void;
     linkRequest: (blockId: string) => Promise<void>;
-    linksCSS: CSSProperties;
+    newBlockRequest: (kind: NodeValueWithLinks['kind'], next: (n?: NodeValueWithLinks) => void) => void;
   };
 
-  return function Editor({ value, onChange, viewMode, singularMode, renderLink, linkRequest, newBlockRequest, linksCSS }: _Params) {
+  return function Editor({ value, onChange, viewMode, singularMode, onBlockFocus, linkRequest, newBlockRequest }: _Params) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     const onAdd = React.useCallback(
@@ -62,11 +61,8 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
           >
             <SortableContext items={value.map(m => m)}>
               {value.map((currNode, index) => {
-                const [isFocused, { setLeft, setRight }] = useToggle(false);
-                const isFocusedDebounced = useDebounce(isFocused, { wait: 400 });
-
                 return (
-                  <div key={currNode.id} onMouseEnter={setRight} onMouseLeave={setLeft}>
+                  <div key={currNode.id} onMouseEnter={() => onBlockFocus(currNode)} onMouseLeave={() => onBlockFocus(null)}>
                     <NodeView
                       node={currNode}
                       onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
@@ -78,21 +74,6 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                       viewMode={viewMode}
                       singularMode={singularMode}
                     />
-
-                    {createPortal(
-                      <AnimatePresence>
-                        {isFocusedDebounced && (
-                          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-                            <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-3 fixed' style={{ ...linksCSS }}>
-                              {currNode.links.map((link, i) => {
-                                return <div key={i}>{renderLink(link)}</div>;
-                              })}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>,
-                      document.body
-                    )}
                   </div>
                 );
               })}

@@ -4,6 +4,8 @@ import './index.css';
 import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE, EMBED_CODE, BODY_SIMPLE } from './blocks';
 import classNames from 'classnames';
 import { nanoid } from 'nanoid';
+import { useDebounce } from 'ahooks';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Editor = InitEditor({
   blocks: { TITLE, ABSTRACT, BODY: BODY_SIMPLE, IMAGE, EMBED_CODE }
@@ -76,6 +78,8 @@ export const Demo = () => {
   ]);
 
   const [isViewMode, setViewMode] = React.useState(false);
+  const [focusesed, setFocuses] = React.useState<null | State[number]>(null);
+  const isFocusedDebounced = useDebounce(focusesed, { wait: 400 });
 
   return (
     <div className='p-4 max-w-2xl mx-auto'>
@@ -104,15 +108,57 @@ export const Demo = () => {
       )}
 
       <div>
+        {isFocusedDebounced && (
+          <div className='fixed top-1 right-1 text-danger'>
+            <AnimatePresence>
+              {isFocusedDebounced && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  onMouseEnter={() => setFocuses(isFocusedDebounced)}
+                  onMouseLeave={() => setFocuses(null)}
+                >
+                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-3 fixed w-64 right-3 top-3'>
+                    {isFocusedDebounced.links.map((link, i) => {
+                      return (
+                        <div key={i}>
+                          <div className='w-full relative'>
+                            {link.map(n => {
+                              return (
+                                <div key={n.id}>
+                                  {n.kind === 'IMAGE' ? (
+                                    <img src={n.content} alt='' />
+                                  ) : (
+                                    <span className='absolute top-10 left-10 text-white'>{n.content}</span>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            ,
+          </div>
+        )}
+      </div>
+
+      <div>
         <Editor
           value={state}
           onChange={setState}
           viewMode={isViewMode}
           singularMode={false}
-          linksCSS={{ right: '20px', top: '20px', width: '300px' }}
           linkRequest={async id => {
             setSelectedBlock(id);
           }}
+          onBlockFocus={setFocuses}
           newBlockRequest={(kind, next) => {
             if (kind === 'ABSTRACT') {
               setTimeout(() => {
@@ -122,19 +168,6 @@ export const Demo = () => {
             } else {
               next();
             }
-          }}
-          renderLink={link => {
-            return (
-              <div className='w-full relative'>
-                {link.map(n => {
-                  return (
-                    <div key={n.id}>
-                      {n.kind === 'IMAGE' ? <img src={n.content} alt='' /> : <span className='absolute top-10 left-10 text-white'>{n.content}</span>}
-                    </div>
-                  );
-                })}
-              </div>
-            );
           }}
         />
       </div>
