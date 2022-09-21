@@ -58,7 +58,7 @@ export function NodeView<N extends NodeValueType>({
     >
       <div>
         <div className={classNames('flex group items-start', { 'pointer-events-none': viewMode, 'cursor-auto': viewMode })}>
-          <div className='grow-0 shrink-0 w-auto mt-1 pl-2 pr-9 flex justify-end'>
+          <div className='grow-0 shrink-0 w-auto mt-1 pl-2 pr-9 flex justify-end' style={{ width: '96px' }}>
             {!singularMode && (
               <ShowOnGroupHover isDragging={isDragging}>
                 <div className='h-4 relative text-gray hover:text-gray-darkest transition-colors mr-1' style={{ top: '2px' }} {...listeners}>
