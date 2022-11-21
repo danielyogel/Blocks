@@ -19,7 +19,11 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
 
   type _Params = {
     value: Array<NodeValueWithLinks>;
-    onChange: React.Dispatch<React.SetStateAction<NodeValueWithLinks[]>>;
+    onChange: (node: NodeValueWithLinks, index: number) => void;
+    onAdd: (node: NodeValueWithLinks, index: number) => void;
+    onMove: (oldIndex: number, newIndex: number) => void;
+    onDuplicate: (index: number) => void;
+    onDelete: (index: number) => void;
     viewMode: boolean;
     singularMode: boolean;
     onBlockFocus: (quest: NodeValueWithLinks | null) => void;
@@ -27,15 +31,17 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     newBlockRequest: (kind: NodeValueWithLinks['kind'], next: (n?: NodeValueWithLinks) => void) => void;
   };
 
-  return function Editor({ value, onChange, viewMode, singularMode, onBlockFocus, linkRequest, newBlockRequest }: _Params) {
+  return function Editor(params: _Params) {
+    const { value, onChange, onAdd, onMove, onDuplicate, onDelete, viewMode, singularMode, onBlockFocus, linkRequest, newBlockRequest } = params;
+
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
-    const onAdd = React.useCallback(
+    const _onAdd = React.useCallback(
       (node: NodeValueWithLinks, index?: number) => {
         newBlockRequest(node.kind, selectedNode => {
           const indexToUse = index === undefined ? value.length : index + 1;
           const nodeToAdd = selectedNode || node;
-          onChange(value => unsafeInsertAt(indexToUse, nodeToAdd, value));
+          onAdd(nodeToAdd, indexToUse);
         });
       },
       [value, onChange]
@@ -52,20 +58,20 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
               if (over && active.id !== over.id) {
                 const oldIndex = value.findIndex(i => i.id === active.id);
                 const newIndex = value.findIndex(i => i.id === over.id);
-                onChange(v => arrayMove(v, oldIndex, newIndex));
+                onMove(oldIndex, newIndex);
               }
             }}
           >
-            <SortableContext items={value.map(m => m)}>
+            <SortableContext items={value}>
               {value.map((currNode, index) => {
                 return (
                   <div key={currNode.id} onMouseEnter={() => onBlockFocus(currNode)} onMouseLeave={() => onBlockFocus(null)}>
                     <NodeView
                       node={currNode}
-                      onChange={change => onChange(value => value.map(n => (n.id === change.id ? change : n)))}
-                      onDuplicate={() => onChange(value => unsafeInsertAt(index + 1, { ...currNode, id: nanoid() }, value))}
-                      onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
-                      onAdd={n => onAdd(n, index)}
+                      onChange={node => onChange(node, index)}
+                      onDuplicate={() => onDuplicate(index)}
+                      onDelete={() => onDelete(index)}
+                      onAdd={n => _onAdd(n, index)}
                       blocks={blocks}
                       onLink={linkRequest}
                       viewMode={viewMode}
@@ -80,7 +86,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
 
         {!singularMode && !value.length && (
           <div>
-            <BlocksMenu blocks={blocks} staticMode onSelect={onAdd} />
+            <BlocksMenu blocks={blocks} staticMode onSelect={_onAdd} />
           </div>
         )}
       </div>

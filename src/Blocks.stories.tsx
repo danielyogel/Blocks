@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import { nanoid } from 'nanoid';
 import { useDebounce } from 'ahooks';
 import { AnimatePresence, motion } from 'framer-motion';
+import { unsafeDeleteAt, unsafeInsertAt, unsafeUpdateAt } from './utils';
+import { arrayMove } from '@dnd-kit/sortable';
 
 const Editor = InitEditor({
   blocks: { TITLE, ABSTRACT, BODY: BODY_SIMPLE, IMAGE, EMBED_CODE }
@@ -152,7 +154,21 @@ export const Demo = () => {
       <div>
         <Editor
           value={state}
-          onChange={setState}
+          onChange={(node, index) => {
+            setState(value => unsafeUpdateAt(index, node, value));
+          }}
+          onAdd={(node, index) => {
+            setState(value => unsafeInsertAt(index, node, value));
+          }}
+          onDelete={index => {
+            setState(value => unsafeDeleteAt(index, value));
+          }}
+          onDuplicate={index => {
+            setState(value => unsafeInsertAt(index + 1, { ...state[index], id: nanoid() }, value));
+          }}
+          onMove={(oldIndex, newIndex) => {
+            setState(v => arrayMove(v, oldIndex, newIndex));
+          }}
           viewMode={isViewMode}
           singularMode={false}
           linkRequest={async id => {
