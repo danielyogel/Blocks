@@ -1,11 +1,8 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { nanoid } from 'nanoid';
-import { createPortal } from 'react-dom';
 import { Except } from 'type-fest';
-import { useDebounce, useToggle } from 'ahooks';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { AnimatePresence, motion } from 'framer-motion';
 import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../utils';
 import { BlocksMenu } from './internals/BlocksMenu';
 import { NodeView } from './internals/NodeView';
