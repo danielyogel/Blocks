@@ -62,7 +62,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                   <div key={currNode.id} onMouseEnter={() => onBlockFocus(currNode)} onMouseLeave={() => onBlockFocus(null)}>
                     <NodeView
                       node={currNode}
-                      onChange={node => onChange(value => [...unsafeUpdateAt(index, node, value)])}
+                      onChange={change => onChange(value => value.map(n => (n.id === change.id ? change : n)))}
                       onDuplicate={() => onChange(value => unsafeInsertAt(index + 1, { ...currNode, id: nanoid() }, value))}
                       onDelete={() => onChange(value => unsafeDeleteAt(index, value))}
                       onAdd={n => onAdd(n, index)}
