@@ -27,7 +27,14 @@ export const DemoMobx = () => {
                 state.set(state.get().map(n => (n.id === node.id ? node : n)));
               }}
               onAdd={(node, index) => {
-                state.set(unsafeInsertAt(index, node, state.get()));
+                if (node.kind === 'ABSTRACT') {
+                  const confirmed = confirm('create abstract?');
+                  if (confirmed) {
+                    state.set(unsafeInsertAt(index, node, state.get()));
+                  }
+                } else {
+                  state.set(unsafeInsertAt(index, node, state.get()));
+                }
               }}
               onDelete={index => {
                 state.set(unsafeDeleteAt(index, state.get()));
@@ -42,16 +49,6 @@ export const DemoMobx = () => {
               singularMode={false}
               linkRequest={async id => {}}
               onBlockFocus={() => {}}
-              newBlockRequest={(kind, next) => {
-                if (kind === 'ABSTRACT') {
-                  setTimeout(() => {
-                    const n = { kind: 'ABSTRACT' as const, content: 'from outside', id: nanoid(), disabled: false, links: [] };
-                    next(n);
-                  }, 1000);
-                } else {
-                  next();
-                }
-              }}
             />
           );
         }}

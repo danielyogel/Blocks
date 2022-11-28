@@ -1,9 +1,7 @@
-import React from 'react';
-import { nanoid } from 'nanoid';
+import { useCallback } from 'react';
 import { Except } from 'type-fest';
-import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import { SortableContext } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { unsafeUpdateAt, unsafeDeleteAt, unsafeInsertAt } from '../utils';
 import { BlocksMenu } from './internals/BlocksMenu';
 import { NodeView } from './internals/NodeView';
 import { Block, InferBlockValue, NodeValueType } from '../interfaces';
@@ -17,7 +15,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
 
   type NodeValueWithLinks = Except<NodeValue, 'links'> & { links: Array<Except<NodeValue, 'links'>[]> };
 
-  type _Params = {
+  type Params = {
     value: Array<NodeValueWithLinks>;
     onChange: (node: NodeValueWithLinks, index: number) => void;
     onAdd: (node: NodeValueWithLinks, index: number) => void;
@@ -28,22 +26,15 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     singularMode: boolean;
     onBlockFocus: (quest: NodeValueWithLinks | null) => void;
     linkRequest: (blockId: string) => Promise<void>;
-    newBlockRequest: (kind: NodeValueWithLinks['kind'], next: (n?: NodeValueWithLinks) => void) => void;
   };
 
-  return function Editor(params: _Params) {
-    const { value, onChange, onAdd, onMove, onDuplicate, onDelete, viewMode, singularMode, onBlockFocus, linkRequest, newBlockRequest } = params;
+  return function Editor(params: Params) {
+    const { value, onChange, onAdd, onMove, onDuplicate, onDelete, viewMode, singularMode, onBlockFocus, linkRequest } = params;
 
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
-    const _onAdd = React.useCallback(
-      (node: NodeValueWithLinks, index?: number) => {
-        newBlockRequest(node.kind, selectedNode => {
-          const indexToUse = index === undefined ? value.length : index + 1;
-          const nodeToAdd = selectedNode || node;
-          onAdd(nodeToAdd, indexToUse);
-        });
-      },
+    const _onAdd = useCallback(
+      (node: NodeValueWithLinks, index?: number) => onAdd(node, index === undefined ? value.length : index + 1),
       [value, onChange]
     );
 
@@ -71,7 +62,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
                       onChange={node => onChange(node, index)}
                       onDuplicate={() => onDuplicate(index)}
                       onDelete={() => onDelete(index)}
-                      onAdd={n => _onAdd(n, index)}
+                      onAdd={block => _onAdd(block, index)}
                       blocks={blocks}
                       onLink={linkRequest}
                       viewMode={viewMode}

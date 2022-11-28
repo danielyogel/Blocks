@@ -175,16 +175,6 @@ export const Demo = () => {
             setSelectedBlock(id);
           }}
           onBlockFocus={setFocuses}
-          newBlockRequest={(kind, next) => {
-            if (kind === 'ABSTRACT') {
-              setTimeout(() => {
-                const n = { kind: 'ABSTRACT' as const, content: 'from outside', id: nanoid(), disabled: false, links: [] };
-                next(n);
-              }, 1000);
-            } else {
-              next();
-            }
-          }}
         />
       </div>
     </div>
