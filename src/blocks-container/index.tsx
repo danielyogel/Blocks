@@ -6,16 +6,16 @@ import { BlocksMenu } from './internals/BlocksMenu';
 import { NodeView } from './internals/NodeView';
 import { Block, InferBlockValue, NodeValueType } from '../interfaces';
 
-type Params<K extends string, Blocks extends Record<K, Block<any>>> = { blocks: Blocks };
+type InitParams<K extends string, Blocks extends Record<K, Block<any>>> = { blocks: Blocks };
 
-export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ blocks }: Params<K, B>) {
+export function Init<K extends string, B extends Record<K, Block<any>>>({ blocks }: InitParams<K, B>) {
   type NodeValue = {
     [key in keyof typeof blocks]: NodeValueType<key, InferBlockValue<typeof blocks[key]>>;
   }[keyof typeof blocks];
 
   type NodeValueWithLinks = Except<NodeValue, 'links'> & { links: Array<Except<NodeValue, 'links'>[]> };
 
-  type Params = {
+  type EditorParams = {
     value: Array<NodeValueWithLinks>;
     onChange: (node: NodeValueWithLinks, index: number) => void;
     onAdd: (node: NodeValueWithLinks, index: number) => void;
@@ -28,7 +28,7 @@ export function InitEditor<K extends string, B extends Record<K, Block<any>>>({ 
     linkRequest: (blockId: string) => Promise<void>;
   };
 
-  return function Editor(params: Params) {
+  return function Editor(params: EditorParams) {
     const { value, onChange, onAdd, onMove, onDuplicate, onDelete, viewMode, singularMode, onBlockFocus, linkRequest } = params;
 
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
