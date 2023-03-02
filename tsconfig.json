@@ -1,10 +1,21 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "include": ["src", "types"],
+  "include": [
+    "src",
+    "types"
+  ],
   "compilerOptions": {
     "module": "esnext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client", "vitest/globals", "vitest/importMeta"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "vitest/importMeta"
+    ],
     "target": "ESNext",
     "importHelpers": true,
     "allowJs": false,

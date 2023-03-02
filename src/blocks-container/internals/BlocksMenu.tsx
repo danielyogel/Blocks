@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { nanoid } from 'nanoid';
 import { XIcon } from '../../components/icons';
 import classNames from 'classnames';
 import { useOutside } from '../../utils/useOutside';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Block, NodeValueType } from '../../interfaces';
-import { map, ObjectEnteries, pipe } from '../../utils';
+import { map, ObjectEnteries, pipe, stringToColour } from '../../utils';
 
 type Params<K extends string, N extends NodeValueType<K>> = {
   onSelect: (node: N) => void;
@@ -17,6 +17,10 @@ export function BlocksMenu<K extends string, N extends NodeValueType>({ blocks, 
   const BLOCKS_WITH_KIND = ObjectEnteries(blocks).map(([kind, node]) => ({ ...node, kind }));
 
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const close = useCallback(() => {
+    isOpen && setIsOpen(false);
+  }, [isOpen]);
 
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -31,6 +35,7 @@ export function BlocksMenu<K extends string, N extends NodeValueType>({ blocks, 
   return (
     <div
       className={classNames('z-20 hover:opacity-100 relative transition-opacity duration-200 py-5', { 'opacity-0': !staticMode })}
+      onMouseLeave={close}
       style={{ minHeight: '40px' }}
       ref={ref}
     >
@@ -50,7 +55,7 @@ export function BlocksMenu<K extends string, N extends NodeValueType>({ blocks, 
           {isOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 100, opacity: 1 }}
+              animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ ease: 'easeInOut' }}
             >
@@ -60,7 +65,8 @@ export function BlocksMenu<K extends string, N extends NodeValueType>({ blocks, 
                   return (
                     <div
                       key={b.kind}
-                      className='inline-flex cursor-pointer bg-gray w-24 h-24 items-center justify-center mr-2 mb-2 last:mr-0 text-sm flex-wrap'
+                      className='inline-flex cursor-pointer bg-gray w-24 h-24 items-center justify-center mr-2 mb-2 last:mr-0 text-sm flex-wrap text-white'
+                      style={{ backgroundColor: stringToColour(b.kind) }}
                       onClick={() => {
                         const newValue: NodeValueType = { kind: b.kind, id: nanoid(), content: b.initialValue, disabled: false, links: [] };
                         onSelect(newValue as any);

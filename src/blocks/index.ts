@@ -10,3 +10,4 @@ export * from './SUBTITLE';
 export * from './TITLE';
 export * from './VIDEO';
 export * from './CALCULATOR';
+export * from './PUBLICATION_DATE';

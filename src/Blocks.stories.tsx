@@ -1,7 +1,7 @@
 import React from 'react';
 import { InitEditor } from './index';
 import './index.css';
-import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE, EMBED_CODE, BODY_SIMPLE } from './blocks';
+import { TITLE, ABSTRACT, AUTHORS, BODY, IMAGE, EMBED_CODE, BODY_SIMPLE, PUBLICATION_DATE } from './blocks';
 import classNames from 'classnames';
 import { nanoid } from 'nanoid';
 import { useDebounce } from 'ahooks';
@@ -10,7 +10,7 @@ import { unsafeDeleteAt, unsafeInsertAt, unsafeUpdateAt } from './utils';
 import { arrayMove } from '@dnd-kit/sortable';
 
 const Editor = InitEditor({
-  blocks: { TITLE, ABSTRACT, BODY: BODY_SIMPLE, IMAGE, EMBED_CODE }
+  blocks: { TITLE, ABSTRACT, BODY: BODY_SIMPLE, IMAGE, EMBED_CODE, PUBLICATION_DATE }
 });
 
 const BLOCKS_TO_LINK = [
