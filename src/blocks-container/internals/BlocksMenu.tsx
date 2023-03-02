@@ -54,6 +54,7 @@ export function BlocksMenu<K extends string, N extends NodeValueType>({ blocks, 
         <AnimatePresence>
           {isOpen && (
             <motion.div
+              className='flex justify-start items-start flex-wrap'
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -65,7 +66,7 @@ export function BlocksMenu<K extends string, N extends NodeValueType>({ blocks, 
                   return (
                     <div
                       key={b.kind}
-                      className='inline-flex cursor-pointer bg-gray w-24 h-24 items-center justify-center mr-2 mb-2 last:mr-0 text-sm flex-wrap text-white'
+                      className='flex cursor-pointer bg-gray w-24 h-24 items-center justify-center mr-2 mb-2 last:mr-0 text-sm flex-wrap text-white'
                       style={{ backgroundColor: stringToColour(b.kind) }}
                       onClick={() => {
                         const newValue: NodeValueType = { kind: b.kind, id: nanoid(), content: b.initialValue, disabled: false, links: [] };
