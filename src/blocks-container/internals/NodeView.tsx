@@ -72,7 +72,7 @@ export function NodeView<N extends NodeValueType>({
                 items={[
                   ...(node.disabled || singularMode ? [] : [{ onClick: onDelete, text: 'Delete', separator: true, Icon: TrashIcon }]),
                   { onClick: onDuplicate, text: 'Duplicate', separator: !node.disabled, Icon: DuplicateIcon },
-                  ...(node.disabled ? [] : [{ onClick: _onLink, text: 'Value Link', separator: !node.disabled && !singularMode, Icon: LinkIcon }]),
+                  ...[{ onClick: _onLink, text: 'Value Link', separator: !node.disabled && !singularMode, Icon: LinkIcon }],
                   ...(node.disabled || singularMode
                     ? []
                     : BLOCKS_WITH_KIND.filter(currBlock => currBlock.kind !== node.kind).map(currBlock => {
